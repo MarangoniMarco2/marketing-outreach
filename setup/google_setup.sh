@@ -6,7 +6,7 @@
 #   - imposta la schermata di consenso come "Interna" (Google Workspace)
 #   - ti guida nella creazione del client OAuth (unico passo a mano) e ottiene il refresh token Gmail
 #   - prova Places e Gmail (crea e cancella subito una bozza di prova)
-#   - stampa i 4 valori da incollare nei Network secrets dell'ambiente Claude
+#   - stampa i 4 valori da incollare nelle variabili d'ambiente (Environment variables) dell'ambiente Claude
 #
 # Da eseguire in Google Cloud Shell: https://shell.cloud.google.com
 #   bash google_setup.sh
@@ -197,9 +197,9 @@ case "$RES" in ERR*) warn "Places non risponde ancora ($RES). Di solito si siste
 cat <<EOF
 
 =====================================================================
- FATTO. Copia questi 4 valori nei Network secrets dell'ambiente Claude
+ FATTO. Copia queste 4 righe nel campo Environment variables dell'ambiente Claude
  (barra del titolo della sessione -> menu dell'ambiente -> Edit).
- Nome a sinistra dell'uguale, valore a destra. Non incollarli in chat.
+ (non nei Network secrets). Incollale cosi come sono. Non incollarle in chat.
 =====================================================================
 GOOGLE_MAPS_API_KEY=$MAPS_KEY
 GMAIL_CLIENT_ID=$CLIENT_ID

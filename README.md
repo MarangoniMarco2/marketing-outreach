@@ -23,12 +23,13 @@ Le istruzioni complete sono in `skills/website-rebuilder/SKILL.md` e `NIGHTLY.md
 ## Configurazione (una volta sola)
 
 Tutte le chiavi vanno nelle impostazioni dell'ambiente cloud (menu dell'ambiente nella barra del titolo della
-sessione → **Edit** → **Network secrets**, oppure come variabili d'ambiente). Mai nel repo, mai in chat.
+sessione → **Edit** → campo **Environment variables**, una riga NOME=valore per chiave). Non nei Network secrets
+(quelli chiedono un dominio e servono ad altro). Mai nel repo, mai in chat.
 
 ### Il modo veloce: lo script
 Apri [Google Cloud Shell](https://shell.cloud.google.com), carica `setup/google_setup.sh` (menu ⋮ → Carica) e
 lancia `bash google_setup.sh`. Crea un progetto tuo, attiva le API, crea la chiave Maps, ti guida nell'unico passo a
-mano (il client OAuth) e alla fine stampa i 4 valori da mettere nei Network secrets. Si può rilanciare: riparte dal
+mano (il client OAuth) e alla fine stampa i 4 valori da mettere nelle variabili d'ambiente. Si può rilanciare: riparte dal
 progetto creato la prima volta. I passi qui sotto sono la stessa cosa fatta a mano.
 
 ### 1. Google Cloud
