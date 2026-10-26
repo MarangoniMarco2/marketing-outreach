@@ -9,6 +9,8 @@ Nobody is watching: never ask questions, never send an email, never contact a bu
 Gmail drafts and commits to this repo.
 
 ## You, the coordinator: few, short turns
+If the scheduled prompt still speaks of a separate search agent, this file wins: do the search yourself.
+
 1. `cd` to the repo (normally `/home/user/marketing-outreach`; it must be among the session's sources, a fresh
    clone cannot push), then `git checkout -q main && git pull -q origin main && bash scripts/setup_session.sh`.
    Do not read other files yourself: the agents read what they need.

@@ -154,7 +154,11 @@ def check(query, urls, out_path, min_reviews=5, min_score=3):  # lower bar than 
         seen.add(d)
         if any(x in u.lower() for x in NOT_A_SITE): print(f'--  {d}: directory/social, not a business site'); continue
         if d in doms: print(f'--  {d}: already in done.jsonl or in tonight\'s candidates'); continue
-        todo.append(urllib.parse.urlunparse(urllib.parse.urlparse(u)._replace(query='', fragment='')))
+        pu = urllib.parse.urlparse(u)
+        # score the home page, not the inner page the search happened to land on (a site on a builder's shared
+        # host lives under its own path, so that one keeps it)
+        shared_host = re.search(r'wixsite|jimdo|webnode|altervista|blogspot|sites\.google|wordpress\.com', pu.netloc)
+        todo.append(urllib.parse.urlunparse(pu._replace(path=pu.path if shared_host else '/', params='', query='', fragment='')))
     with cf.ThreadPoolExecutor(8) as ex:
         scores = list(ex.map(score, todo))
     added = 0
