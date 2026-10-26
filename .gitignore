@@ -1,0 +1,9 @@
+__pycache__/
+*.pyc
+.env
+# heavy or throwaway files stay out of the repo (the drafts in Gmail have the attachments)
+runs/**/raw/
+runs/**/.taste-skill/
+runs/**/*.gif
+runs/**/*.webm
+runs/**/*.eml
