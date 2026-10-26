@@ -1,1 +1,125 @@
-[]
+[
+ {
+  "place_id": "ChIJiz3cgSpNf0cRFwUgcayxMek",
+  "name": "OROLOGERIA OREFICERIA OTTICA ROSSATO & FIGLI S.a.s.",
+  "address": "Corso Italia, 4, 36078 Valdagno VI",
+  "website": "http://www.rossatoefigli.it/",
+  "status": "OPERATIONAL",
+  "rating": 3.7,
+  "reviews": 6,
+  "phone": "0445 401125",
+  "type": "Gioielleria",
+  "maps": "https://maps.google.com/?cid=16803407038886446359&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "hours": [
+   "lunedì: Chiuso",
+   "martedì: 09:00–12:00, 16:00–19:00",
+   "mercoledì: 09:00–12:00, 16:00–19:00",
+   "giovedì: 09:00–12:00, 16:00–19:00",
+   "venerdì: 09:00–12:00, 16:00–19:00",
+   "sabato: 09:00–12:00, 16:00–18:30",
+   "domenica: Chiuso"
+  ],
+  "review_list": [
+   {
+    "rating": 1,
+    "date": "2026-01-30",
+    "author": "VenditaCasaPerarolo",
+    "text": "Ho portato l’orologio in negozio per la riparazione per ben due volte, ma mi è stato restituito entrambe le volte ancora non funzionante, nonostante mi sia stato detto che era tutto a posto"
+   },
+   {
+    "rating": 5,
+    "date": "2018-06-23",
+    "author": "Alessandro Randon",
+    "text": "Edoardo e Andrea sempre gentili e disponibili. Ottima scelta di prodotti, sia di orificeria, orologeria, che prodotti riguardanti l'ottica, con le ultime novità del mercato."
+   },
+   {
+    "rating": 5,
+    "date": "2018-06-13",
+    "author": "Enea Nizzero",
+    "text": "Sono venuto per cambiare il cinturino dell'orologio, servizio veloce e soddisfacente, anche a livello economico"
+   },
+   {
+    "rating": 1,
+    "date": "2026-09-20",
+    "author": "Ot",
+    "text": "Orologio restituito con riparazione , dopo poco ha smesso di funzionare"
+   },
+   {
+    "rating": 5,
+    "date": "2026-10-10",
+    "author": "marco follesa",
+    "text": ""
+   }
+  ],
+  "newest_review": "2026-10-10",
+  "newest_review_days": 16,
+  "alive_pct": 85,
+  "phone_intl": "+39 0445 401125",
+  "site_score": 5,
+  "final_url": "https://www.rossatoefigli.it/",
+  "flags": "no-viewport font/marquee noform",
+  "query": "ottico Valdagno",
+  "source": "web"
+ },
+ {
+  "place_id": "ChIJU79cWVXJeEcRw53j5mMGf4w",
+  "name": "Idro-Comm. S.R.L.",
+  "address": "Via E. Fermi, 15, 36066 Sandrigo VI",
+  "website": "https://idrocomm.net/",
+  "status": "OPERATIONAL",
+  "rating": 4.4,
+  "reviews": 28,
+  "phone": "0444 658758",
+  "type": "Negozio di materiali da costruzione",
+  "maps": "https://maps.google.com/?cid=10123817513497370051&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "site_score": 5,
+  "final_url": "https://idrocomm.net/",
+  "flags": "©2015 font/marquee noform",
+  "query": "termoidraulica Sandrigo",
+  "hours": [
+   "lunedì: 08:00–12:00, 14:00–18:30",
+   "martedì: 08:00–12:00, 14:00–18:30",
+   "mercoledì: 08:00–12:00, 14:00–18:30",
+   "giovedì: 08:00–12:00, 14:00–18:30",
+   "venerdì: 08:00–12:00, 14:00–18:30",
+   "sabato: 08:00–12:00",
+   "domenica: Chiuso"
+  ],
+  "review_list": [
+   {
+    "rating": 1,
+    "date": "2025-05-13",
+    "author": "Fabiola Caretta",
+    "text": "Comperato un bel po di roba\nMolto bravi nella vendita!\nPoi se hai qualche problema fidatevi\nSpariscono non rispondono degli errori e danni che fanno!!\nMAI PIÙ!!\nDi sicuro lo sconsiglierò a vita"
+   },
+   {
+    "rating": 5,
+    "date": "2022-11-03",
+    "author": "Leonida Tardivo",
+    "text": "Il miglior showroom del Vicentino, con ottimi prezzi e personale molto professionale. Consigliatissimo!"
+   },
+   {
+    "rating": 5,
+    "date": "2019-07-30",
+    "author": "Fadani",
+    "text": "Sala mostra completa, con un'ampia offerta di arredamenti / mobili per il bagno, sanitari e rubinetteria delle migliori marche."
+   },
+   {
+    "rating": 5,
+    "date": "2023-07-30",
+    "author": "Alessandra De Antoni",
+    "text": "Elena ha saputo consigliarci al meglio e Ilario ha svolto un ottimo lavoro"
+   },
+   {
+    "rating": 5,
+    "date": "2022-05-30",
+    "author": "Sergio Bruschi",
+    "text": "Molto professionale ed economico"
+   }
+  ],
+  "newest_review": "2025-05-13",
+  "newest_review_days": 531,
+  "alive_pct": 45,
+  "phone_intl": "+39 0444 658758"
+ }
+]
