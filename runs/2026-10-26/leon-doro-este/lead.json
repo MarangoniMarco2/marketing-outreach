@@ -1,0 +1,58 @@
+{
+ "place_id": "ChIJCcy3Yfsdf0cRFKt0dSfofGs",
+ "name": "Leon d'Oro",
+ "address": "Viale Fiume, 20, 35042 Este PD, Italia",
+ "website": "https://www.leondoroeste.it/",
+ "status": "OPERATIONAL",
+ "rating": 4.4,
+ "reviews": 531,
+ "phone": "0429 602949",
+ "type": "Ristorante italiano",
+ "maps": "https://maps.google.com/?cid=7745320715342359316&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+ "phone_intl": "+39 0429 602949",
+ "hours": [
+  "lunedì: 12:00–14:00, 19:30–21:30",
+  "martedì: 12:00–14:00, 19:30–21:30",
+  "mercoledì: 12:00–14:00, 19:30–21:30",
+  "giovedì: 12:00–14:00, 19:30–21:30",
+  "venerdì: 12:00–14:00, 19:30–21:30",
+  "sabato: 12:00–14:00, 19:30–21:30",
+  "domenica: Chiuso"
+ ],
+ "review_list": [
+  {
+   "rating": 4,
+   "date": "2026-09-06",
+   "author": "Miriam Di Pasquale",
+   "text": "Abbiamo alloggiato qui per un matrimonio nei paraggi e ci siamo trovati davvero bene. L'hotel si trova in una posizione eccellente, in pieno centro ma al tempo stesso molto tranquillo.\nI proprietari sono stati davvero gentili e disponibili, lasciandoci fare colazione anche se eravamo arrivati fuori orario. La camera è essenziale ma pulita e con tutto l'indispensabile per riposare bene, oltre a offrire una bella vista.\nEsperienza decisamente positiva. Este è una cittadina davvero carina che merita una visita. Struttura consigliata!"
+  },
+  {
+   "rating": 5,
+   "date": "2026-04-18",
+   "author": "Alessandra Dalla Pietà",
+   "text": "Siamo arrivati in bici, il gestore ci ha accolto con ospitalità e si è preso cura delle nostre bici mettendole dentro il suo magazzino (adatto alle bici), così abbiamo mangiato un pasto eccellente con bigoli e sugo all’anatra fatti in casa meraviglioso, senza il pensiero della bici fuori incustodite. Locale semplice, casalingo, cucina ottima e personale gentilissimo. Che dire.. meraviglioso tutto!!!! Consigliatissimo"
+  },
+  {
+   "rating": 4,
+   "date": "2026-03-16",
+   "author": "Giuliano Bernardi",
+   "text": "Situato in posizione centrale. Pulito anche se le camere avrebbero bisogno di un po' di manutenzione. Non ha un ascensore. Avevamo una camera matrimoniale ma c'era solo un asciugamano per tipo. Colazione buona.  Purtroppo non c'è un posteggio auto vicino."
+  },
+  {
+   "rating": 5,
+   "date": "2026-03-28",
+   "author": "Gaetano Romano",
+   "text": "Uno dei posti più accoglienti del territorio. La cucina non ha rivali, lo consiglierei ad altri 100 amici."
+  },
+  {
+   "rating": 4,
+   "date": "2026-04-18",
+   "author": "Luigi F",
+   "text": "Buonissima cucina casalinga che si sviluppa tra carne e pesce, con ottimi primi. Consiglio."
+  }
+ ],
+ "newest_review": "2026-09-06",
+ "newest_review_days": 50,
+ "alive_pct": 95,
+ "old_url": "https://www.leondoroeste.it/"
+}

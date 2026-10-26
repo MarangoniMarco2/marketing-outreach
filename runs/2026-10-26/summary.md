@@ -20,3 +20,17 @@ Scartati: Rossato & Figli (Valdagno): 3.7 su 6 recensioni, due 1 stella recenti 
 - 5 siti in errore 502 tramite proxy, mai valutati (tra cui otticacainelli.it e lazzariluciano.com, forse vecchi): da riprovare in un altro giro.
 - Il percorso di output predefinito di `find_leads.py` puntava a runs/2026-10-27 (data UTC/locale?): l'agente ha passato `--out` a mano. Da correggere nello script.
 - La zona attuale dà pochi siti vecchi: valutare di cambiare zona o categorie.
+
+# Secondo giro di prova del 2026-10-26 (pomeriggio, ricerca doppia web + Maps)
+**Bozze create: 1.** Nessuna email inviata, nessuna attività contattata.
+## Bozze
+- **Albergo Ristorante Leon d'Oro**, Este (PD): 4.4 su 531 recensioni, ultima 2026-09-06. A: prenotazioni@leondoroeste.it.
+  Allegati: card.jpg 0.3 MB, scroll-mobile.gif 3.2 MB (circa 4.7 MB in tutto). Da controllare: le foto di Este e dei Colli sul vecchio sito sono loro?; il menù e il menù di pesce del venerdì sono ancora attuali?; i servizi delle camere e la mezza o pensione completa; il link al Team Este Bike e gli orari dei ritrovi. Il pulsante di prenotazione apre l'email (mailto), non c'è un modulo. Dettagli in `leon-doro-este/report.md`.
+## Ricerca
+12 coppie: palestra Noventa Vicentina, tappezziere Noventa Vicentina, impresa edile Rosà, ferramenta Dueville, fiorista Arzignano, bed and breakfast Altavilla Vicentina, imbianchino Sandrigo, falegnameria Valdagno, autofficina Noventa Vicentina, albergo Noventa Vicentina, gommista Valdagno, termoidraulica Sandrigo (web + Maps). Il Leon d'Oro è uscito dalla ricerca Maps.
+Scartati: Hotel Noventa: sito già moderno e responsive (skipped); Ceolato Arredamenti, Impresa Guarise, B&B Poeta, Oltre la Danza, Falegnameria Disconzi, Castagna Cucine: alive 45%, poco attivi (retry); grcostruzionirosa.it, Zordan, Sartori, La Rosa Costruzioni, Hotel alla Busa: antibot (retry); circa 10 siti abbastanza moderni.
+## Problemi
+- Errori 502 tramite proxy su saceimpresaedile.it, fioreriaiose.it e impresafunebresignoratoflli.it; HTTP 999 su konnect.it.
+- Le foto del Leon d'Oro sono a bassa risoluzione (facciata 420 px); nessun video libero adatto (WARN).
+- Il cursore ha riproposto coppie già cercate nel primo giro di prova (palestra e tappezziere a Noventa, impresa edile a Rosà).
+- Solo la ricerca Maps ha trovato un lead valido: la ricerca web conviene tenerla corta.
