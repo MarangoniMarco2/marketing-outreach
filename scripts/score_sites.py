@@ -15,8 +15,10 @@ CAPTCHA = r'g-recaptcha|hcaptcha'
 
 
 def blocked_http(code, body):
-    """An HTTP error page that is a bot wall. 503 "upstream connect error" from the proxy is a site that is down, not a wall."""
-    return blocked(body) or (code in (403, 429) and len(body) < 5000)
+    """An HTTP error page that is a bot wall: only when the page itself is a captcha or challenge.
+    A bare 403 or 429 is often a firewall or rate limit that lets the site through the next time (seen on
+    studiomedicobassanese.com), and a 503 is a site that is down: those are errors, not walls."""
+    return blocked(body)
 
 
 def blocked(h):
