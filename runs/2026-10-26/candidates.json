@@ -1,0 +1,238 @@
+[
+ {
+  "place_id": "ChIJtZ3u5oDaeEcRYR_1C1SRYPg",
+  "name": "Studio Dentistico D.Ssa Giovanna Nadia Pavin Srl",
+  "address": "Viale XI Febbraio, 42, 36061 Bassano del Grappa VI",
+  "website": "http://www.pavin.it/",
+  "status": "OPERATIONAL",
+  "rating": 4.6,
+  "reviews": 13,
+  "phone": "0424 522262",
+  "type": "Dentista",
+  "maps": "https://maps.google.com/?cid=17897464709334245217&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "site_score": 5,
+  "final_url": "http://www.pavin.it/",
+  "flags": "no-viewport no-https noform",
+  "query": "studio dentistico Bassano del Grappa",
+  "hours": [
+   "lunedì: 08:30–19:30",
+   "martedì: 08:30–19:30",
+   "mercoledì: 08:30–19:30",
+   "giovedì: 08:30–19:30",
+   "venerdì: 08:30–19:30",
+   "sabato: Chiuso",
+   "domenica: Chiuso"
+  ],
+  "review_list": [
+   {
+    "rating": 5,
+    "date": "2026-07-04",
+    "author": "Nicoletta Mocellin",
+    "text": "Frequento questo studio da più di 30 anni, la dottoressa Nadia è sempre stata accogliente e attenta al sorriso mio e della mia famiglia."
+   },
+   {
+    "rating": 4,
+    "date": "2024-09-17",
+    "author": "Maura Pilati",
+    "text": "Personale competente e disponibile"
+   },
+   {
+    "rating": 1,
+    "date": "2017-09-16",
+    "author": "Elia",
+    "text": "Chiusi al Sabato al contrario delle informazioni reperibili quì! Aggiornate le informazioni per evitare perdite di tempo inutili."
+   },
+   {
+    "rating": 5,
+    "date": "2026-04-03",
+    "author": "Aurelia D.",
+    "text": "Consiglio vivamente"
+   },
+   {
+    "rating": 5,
+    "date": "2022-10-23",
+    "author": "Vincenzo Valli",
+    "text": "Professionali e competenti. Organizzazione perfetta."
+   }
+  ],
+  "newest_review": "2026-07-04",
+  "newest_review_days": 114,
+  "alive_pct": 85,
+  "phone_intl": "+39 0424 522262"
+ },
+ {
+  "place_id": "ChIJU2wsZHDQeEcRmTXARJbSV3k",
+  "name": "Studio dentistico Perin dott. Michele",
+  "address": "Via Bortolo Sacchi, 3, 36061 Bassano del Grappa VI",
+  "website": "http://www.studioperinmichele.it/",
+  "status": "OPERATIONAL",
+  "rating": 4.6,
+  "reviews": 22,
+  "phone": "0424 568407",
+  "type": "Dentista",
+  "maps": "https://maps.google.com/?cid=8743688744403482009&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "site_score": 4,
+  "final_url": "http://www.studioperinmichele.it/",
+  "flags": "no-https font/marquee gen:WordPress 4.5.2 noform",
+  "query": "studio dentistico Bassano del Grappa",
+  "hours": [
+   "lunedì: 08:30–19:00",
+   "martedì: 10:00–19:00",
+   "mercoledì: 08:30–19:00",
+   "giovedì: 10:00–19:00",
+   "venerdì: 08:30–15:30",
+   "sabato: Chiuso",
+   "domenica: Chiuso"
+  ],
+  "review_list": [
+   {
+    "rating": 5,
+    "date": "2026-08-08",
+    "author": "Michela Grigoletto",
+    "text": "Studio dentistico ottimo. Personale gentile e accogliente. Segreteria gentilissima 💯💯 Dottor.Michele bravissimo e paziente 💯💯💯💯"
+   },
+   {
+    "rating": 5,
+    "date": "2019-12-12",
+    "author": "Luca",
+    "text": "Studio dentistico di prima classe, sempre pulitissimo e in ordine, il personale è cordiale e sempre sorridente. E poi c’è il top...lui il dottor Perin Michele sempre positivo e pronto a risolvere i problemi, le sue mani sono fatate quando “lavora” sulla tua bocca, che usi il trapano o le siringhe X l’anestesia, non si sente nessun dolore. L’asportazione del mio primo dente del giudizio non me ne sono neanche accorto..io odiavo frequentare studi dentistici perché soffrivo e mi facevano sempre male, invece qui devo dire che oltre a divertirmi esco sempre con il sorriso e senza dolore.\nPosizione comoda anche con ampio parcheggio. Consigliatissimo"
+   },
+   {
+    "rating": 5,
+    "date": "2026-05-06",
+    "author": "Ambra Maiorana",
+    "text": "Il Dott Perin e tutto il suo suo staff di medici, assistenti e soprattutto la bravissima ed efficiente segretaria Elena sono il TOP degli studi medici."
+   },
+   {
+    "rating": 5,
+    "date": "2026-05-29",
+    "author": "Natura",
+    "text": "Ottimo studio dentistico, accogliente, il dottor Perin una persona simpatica ma con una grande professionalità ti fa sentire a tuo agio."
+   },
+   {
+    "rating": 5,
+    "date": "2026-02-09",
+    "author": "asia paciotti",
+    "text": "Complimenti per la professionalità a partire da Elena il dottore non si discute, attento gentile, paziente e soprattutto sa fare anestesie senza dolore, poi un complimento a Fanny, bravissima meticolosa a fare igene\nGran bella squadra ah dimenticavo la piccola Greta, bravi"
+   }
+  ],
+  "newest_review": "2026-08-08",
+  "newest_review_days": 79,
+  "alive_pct": 85,
+  "phone_intl": "+39 0424 568407"
+ },
+ {
+  "place_id": "ChIJX6Kgz2spf0cRjLSJ0Mc54o0",
+  "name": "Bulato Antonio",
+  "address": "Via Vanzo Vecchio, 30, 36043 Camisano Vicentino VI",
+  "website": "http://www.bulato.it/",
+  "status": "OPERATIONAL",
+  "rating": 2.2,
+  "reviews": 5,
+  "phone": "0444 610597",
+  "type": null,
+  "maps": "https://maps.google.com/?cid=10223797634444407948&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "site_score": 4,
+  "final_url": "http://www.bulato.it/",
+  "flags": "©2016 no-https gen:WordPress 6.0.17 noform",
+  "query": "serramenti Camisano Vicentino",
+  "hours": [],
+  "review_list": [
+   {
+    "rating": 1,
+    "date": "2024-10-28",
+    "author": "michele squaquara",
+    "text": "Non sono di parola,tempi lunghissimi lavoro lasciato non concluso ,evitate assolutamente ogni tipo di collaborazione con questa gente,\nDiventano irreperibili,\nSe volete evitare casini andate da un’altro serramentista"
+   },
+   {
+    "rating": 3,
+    "date": "2019-02-13",
+    "author": "Isidoro Loda",
+    "text": "Specialista in serramenti alluminio e basculanti"
+   },
+   {
+    "rating": 1,
+    "date": "2026-09-02",
+    "author": "Matteo Mozzato",
+    "text": "Lavoro svolto male ed in tempi lunghissimi, sto parlando di un basculante motorizzato, il prodotto installato è diverso da quello richiesto e non è stato possibile contestarlo in nessuna maniera, neanche sul prezzo. Ho chiesto un'assistenza e hanno trovato scuse per non svolgere il lavoro, ho dovuto appoggiarmi ad un'altra azienda che ha saputo risolvere il problema in qualche minuto. Esperienza molto negativa."
+   },
+   {
+    "rating": 5,
+    "date": "2024-02-28",
+    "author": "Debora Bortolan",
+    "text": ""
+   },
+   {
+    "rating": 1,
+    "date": "2020-03-13",
+    "author": "Luca Bertapelle",
+    "text": ""
+   }
+  ],
+  "newest_review": "2026-09-02",
+  "newest_review_days": 54,
+  "alive_pct": 85,
+  "phone_intl": "+39 0444 610597"
+ },
+ {
+  "place_id": "ChIJC7pAgkMuf0cRGGVqbGxk3Uo",
+  "name": "Centro Chirurgico Odontoiatrico Gaspari S.R.L.",
+  "address": "Via Merano, 2, 36040 Torri di Quartesolo VI",
+  "website": "http://www.studiogaspari.biz/",
+  "status": "OPERATIONAL",
+  "rating": 4.1,
+  "reviews": 15,
+  "phone": "0444 582530",
+  "type": "Dentista",
+  "maps": "https://maps.google.com/?cid=5394578345497879832&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "site_score": 4,
+  "final_url": "http://www.studiogaspari.biz/",
+  "flags": "©2015 no-https gen:Joomla! - Open Source Con noform",
+  "query": "studio dentistico Torri di Quartesolo",
+  "hours": [
+   "lunedì: 08:30–12:30, 15:00–19:00",
+   "martedì: 08:30–12:30, 15:00–19:00",
+   "mercoledì: 08:30–12:30, 15:00–19:00",
+   "giovedì: 08:30–12:30, 15:00–19:00",
+   "venerdì: 08:30–12:30, 15:00–19:00",
+   "sabato: Chiuso",
+   "domenica: Chiuso"
+  ],
+  "review_list": [
+   {
+    "rating": 5,
+    "date": "2026-01-25",
+    "author": "Marta Castegnero",
+    "text": "I migliori dentisti del mondo che ho trovato in tutta la provincia di Vicenza, coloro che hanno scritto delle recensioni negative sono da segnalare queste teste di..."
+   },
+   {
+    "rating": 5,
+    "date": "2024-09-26",
+    "author": "Damiano Dal Zotto",
+    "text": "Un studio molto competente e personale molto gentile .\nIl dottore Gasparri è un grande professionista e se dovesse indicare ad un amico o conoscente un dentista valido in tutte le sue forme Gasparri di Torri di Quartesolo e' quello che indicherei se  vuole non sentire male e con lavori fatti bene da un grande professionista come lo è questo studio dentistico alla vanguardia.👍"
+   },
+   {
+    "rating": 5,
+    "date": "2026-06-05",
+    "author": "Bibo Cecchini",
+    "text": "ripeto ... perchè ho già fatto una recensione, il miglior studio dentistico che possiate trovare, fare degli interventi anche importanti e non ricordarsi due ore dopo che sei stato dal dentista non capita di frequente, avere lavori fatti da anni e dimenticarsi di aver avuto un problema, perchè non è solo un fatto di gentilezza, pulizia chirurgica e tecnologia all'avanguardia... è la mano, il team, l'intuito, l'esperienza, CONSIGLIATISSIMO.\n\nAggiornamento, i migliori in assoluto 05/06/206"
+   },
+   {
+    "rating": 5,
+    "date": "2026-08-15",
+    "author": "Giorgio Arcangeletti",
+    "text": "Sono anni che lo frequento e lo consiglio"
+   },
+   {
+    "rating": 1,
+    "date": "2022-07-21",
+    "author": "gloria zuin",
+    "text": "ESPERIENZA PESSIMA!\nIl dottor Gaspari, NON SOLO sembrava non avere alcun interesse a mettermi a mio agio, ma sono stata STRATTONATA ed UMILIATA senza alcun motivo!\nIeri avevo appuntamento alle 8:30 del mattino, quindi lo studio era tranquillo.\nSono stata fatta accomodare al giusto orario nell'ambulatorio, e sono stata preparata da una gentile assistente.\nDopo che il dottore è entrato in stanza (senza neanche rivolgermi uno sguardo o chiedermi qualsiasi cosa), sono passati esattamente 20 secondi prima che accennassi alle mie paure (lecite ed umane) per l'anestesia, che avrei preferito non fare, e mi sono seduta nella poltrona, con solo la testa alzata per avere piú respiro e parola.\nNon appena ho osato parlare sono stata subito aggredita ed accusata di star facendo chissà quali scene! Poi la mia testa è stata brutalmente poggiata sul poggiatesta dal dottore con entrambe le mani, con forza, e, continuandomi ad urlare contro, il dottore mi ha aperto la bocca in malo modo per iniziare malvolentieri il lavoro.\nLa cura di due carie.\nIl dottor Gaspari non si è minimamente preoccupato del mio stato di shock.\nLe assistenti sono state per tutto il tempo mute ed attonite, (non so se per abitudine ai modi bruschi ed irragionevoli del dottore, o per imbarazzo).\nUna volta finito, si è alzato ed è uscito di fretta, come se gli avessi fatto perdere tempo prezioso.\n.\nNon voglio giudicare le capacità professionali del dottore, ma non consiglio a nessuno di avere a che fare con questa persona, perché UMANAMENTE non ha minimamente rispetto  per altri esseri umani dotati di educazione.\nSono per \"persone\" come lui che molti, come me, hanno timore dei dentisti.\n\nHo avuto a che fare con altri professionisti dello studio con cui mi sono trovata bene, ma RIPETO, che con il DOTTOR GASPARI ho avuto la peggiore esperienza della mia vita."
+   }
+  ],
+  "newest_review": "2026-08-15",
+  "newest_review_days": 72,
+  "alive_pct": 85,
+  "phone_intl": "+39 0444 582530"
+ }
+]
