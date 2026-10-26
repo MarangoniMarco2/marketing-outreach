@@ -41,8 +41,12 @@ def score(url):
     if jq and int(jq.group(1)) < 2: s += 1; f.append('old-jquery')
     if final.startswith('http:'): s += 2; f.append('no-https')
     if re.search(r'<font|<marquee|<center>|\.swf|bgcolor=', h, re.I): s += 2; f.append('font/marquee')
+    if yrs and max(yrs) < 2018: s += 1  # very old on top
     g = re.search(r'name="generator" content="([^"]+)', h, re.I)
     if g: f.append('gen:' + g.group(1)[:25])
+    # a CMS that has not been updated for years usually comes with a theme of the same age
+    old_cms = re.search(r'WordPress ([1-4])\.|Joomla! (1\.\d|2\.5)|Drupal [4-7]\b', g.group(1) if g else '', re.I)
+    if old_cms: s += 2; f.append('old-cms')
     b = re.search(BUILDERS, h, re.I)
     if b: f.append('builder:' + b.group(0))
     f.append('FORM' if re.search(r'<form[^>]*>[\s\S]{0,4000}?<textarea', h, re.I) else 'noform')

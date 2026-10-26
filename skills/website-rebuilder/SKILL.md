@@ -32,18 +32,34 @@ Output for one business goes in `runs/<YYYY-MM-DD>/<slug>/`:
 `site/` (index.html + assets), `before/` and `shots/` (screenshots), `card.jpg`, `scroll-desktop.gif`,
 `scroll-mobile.gif`, `email.txt`, `report.md`.
 
-## Step 1: Find prospects (Google Maps first)
+## Step 1: Find prospects (web search first, Google Maps to check)
+
+The web search finds sites that are really there to rebuild (own domain, real text and photos); Google Maps then
+says whether the business behind them is alive.
 
 ```bash
-python3 scripts/find_leads.py pick --pairs 3
+python3 scripts/find_leads.py next --pairs 4
 ```
-It takes the next niche/town pairs from `leads/targets.json`, searches Google Maps, keeps businesses that are
-OPERATIONAL, have a real website (not Facebook or a directory) and at least 5 reviews, skips anything already in
-`leads/done.jsonl`, scores each website for how outdated it is (`score_sites.py`) and fetches details (reviews,
-hours) for the worst ones. It prints `site_score`, `alive %` and the newest review date, and adds them to
-`runs/<date>/candidates.json` (a second pick the same night adds to the first). It also drops chains and
-franchises (`chains` in `leads/targets.json`, one website for several branches, a branch page on a network
-site) and marks sites behind a captcha or anti-bot wall as `retry` (they come back after 30 days).
+It moves the cursor in `leads/state.json` and prints the next niche/town pairs from `leads/targets.json` with
+search ideas. For each pair, run two or three web searches in Italian (`autofficina Thiene`,
+`autofficina Thiene contatti`, `autofficina vicino a Thiene`), with `blocked_domains` for the big directories
+(paginegialle.it, paginebianche.it, facebook.com, instagram.com, prontopro.it, miodottore.it, infobel.com,
+starofservice.it, reteimprese.it). Old-site tricks from the original skill: search the footer text of an old
+template or builder plus the trade and town ("realizzato da", "powered by", "© 2012"), and note phone numbers
+that come back on several sites (one owner, several sites).
+
+Collect the businesses' own websites (not directories, lead-gen "pronto intervento" pages or insurers' networks)
+and pass them all to:
+```bash
+python3 scripts/find_leads.py check --query "autofficina Thiene" https://a.it/ https://b.it/ ...
+```
+For each site it prints why it was dropped (directory, already seen, modern enough, captcha, not on Maps, closed,
+few reviews, chain) or `OK` with the Maps name, site score, alive % and newest review. The good ones go into
+`runs/<date>/candidates.json` with reviews and hours (several `check` calls add up). Captcha-walled sites and
+sites with no Maps listing are marked `retry`, permanently closed ones `excluded`.
+
+Fallback (web search not available, or still nothing after 12 pairs): `python3 scripts/find_leads.py pick
+--pairs 4` searches Google Maps directly for the next pairs and fills the same candidates file.
 
 A single business given by the user skips this step: use `python3 scripts/places.py search "<name> <town>"` and
 `details <place_id>` to get the same data.

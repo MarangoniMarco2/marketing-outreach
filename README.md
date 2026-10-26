@@ -10,8 +10,9 @@ Jonny West) e [taste-skill](https://github.com/Leonxlnx/taste-skill) v2 (MIT, Le
 `vendor/taste-skill` (versione in `vendor/taste-skill/VERSION`).
 
 ## Come funziona una notte
-1. `scripts/find_leads.py` prende i prossimi settori e comuni da `leads/targets.json`, cerca su Google Maps,
-   scarta le attività già viste (`leads/done.jsonl`), dà un punteggio ai siti e controlla le recensioni.
+1. `scripts/find_leads.py next` prende i prossimi settori e comuni da `leads/targets.json`; la sessione li cerca
+   sul web, e `find_leads.py check` dà un punteggio ai siti trovati, scarta directory, catene e attività già viste
+   (`leads/done.jsonl`) e verifica su Google Maps che l'attività sia viva (recensioni recenti, orari, stato).
 2. Per ogni lead scelto: raccoglie contenuti e foto dal sito vecchio, prende orari e recensioni da Google,
    disegna e costruisce la home con la taste-skill, la verifica a 1440, 768 e 390 px.
 3. Prepara la card PRIMA/DOPO (`pitch_card.py`), le GIF dello scroll (`make_gif.py`) e il testo della mail
@@ -72,7 +73,7 @@ In una sessione di Claude Code nel repo: "Usa la skill website-rebuilder su http
 | `NIGHTLY.md` | Cosa fa la sessione notturna, passo per passo |
 | `scripts/setup_session.sh` | Prepara la sessione cloud (Playwright, Node, Chromium, ffmpeg) e controlla le chiavi |
 | `scripts/places.py` | Google Maps: ricerca, recensioni, orari, punteggio "attività viva" |
-| `scripts/find_leads.py` | Sceglie i lead della notte e tiene il registro di quelli già fatti |
+| `scripts/find_leads.py` | Settori e comuni della notte, verifica su Maps dei siti trovati, registro dei lead |
 | `scripts/scrape_site.py` | Testi, link, immagini ed email dal sito vecchio |
 | `scripts/score_sites.py`, `alive_check.py` | Quanto è vecchio un sito; segnali di attività |
 | `scripts/shoot.py` | Screenshot desktop e mobile, controllo overflow ed errori |
