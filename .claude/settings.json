@@ -1,0 +1,16 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(node vendor/taste-skill/scripts/draw.mjs *)",
+      "Bash(node vendor/taste-skill/scripts/assets.mjs *)",
+      "Bash(node vendor/taste-skill/scripts/lint.mjs *)",
+      "Bash(node vendor/taste-skill/scripts/inspect.mjs *)",
+      "Bash(node vendor/taste-skill/scripts/scenes.mjs *)",
+      "Bash(node ../../../vendor/taste-skill/scripts/draw.mjs *)",
+      "Bash(node ../../../vendor/taste-skill/scripts/assets.mjs *)",
+      "Bash(node ../../../vendor/taste-skill/scripts/lint.mjs *)",
+      "Bash(node ../../../vendor/taste-skill/scripts/inspect.mjs *)",
+      "Bash(node ../../../vendor/taste-skill/scripts/scenes.mjs *)"
+    ]
+  }
+}

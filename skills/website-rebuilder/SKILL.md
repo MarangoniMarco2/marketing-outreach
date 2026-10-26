@@ -15,11 +15,14 @@ Run everything from the repo root. Paths below are relative to it.
 ## Session setup (every run)
 
 ```bash
-export CHROME_PATH=/opt/pw-browsers/chromium-1243/chrome-linux64/chrome   # or any Chromium; check it exists
-export SSL_CERT_FILE=/root/.ccr/ca-bundle.crt                             # cloud sessions behind the proxy
 python3 -c "import playwright, PIL" || pip install "playwright==1.63.0" pillow   # match the preinstalled browser; never run "playwright install"
 node --version   # taste-skill needs Node 22+
+# taste-skill looks for Chrome in the usual places (or CHROME_PATH); in cloud sessions link Playwright's Chromium once
+[ -e /usr/bin/chromium ] || ln -s "$(ls -d /opt/pw-browsers/chromium-*/chrome-linux64/chrome | head -1)" /usr/bin/chromium
 ```
+Environment variables set with `export` do not survive between commands, so the commands below never rely on
+them. If HTTPS calls fail on certificates in a cloud session, prefix that one command with
+`SSL_CERT_FILE=/root/.ccr/ca-bundle.crt`.
 Secrets come from the environment: `GOOGLE_MAPS_API_KEY` (step 1) and `GMAIL_CLIENT_ID`, `GMAIL_CLIENT_SECRET`,
 `GMAIL_REFRESH_TOKEN` (step 7). If one is missing, say so plainly and do the parts that do not need it.
 
@@ -77,14 +80,18 @@ Where this file and the taste-skill house rules disagree on design, **the taste-
 eyebrows, no 01/02/03 numbering, no icon-topped card rows, no gradients, no shadows at rest, no glass or blur, no
 pill badges, no tiny tracked capitals, two typefaces at most, square or fully round buttons).
 
-Commands (run from `runs/<date>/<slug>/` so `.taste-skill/` lands there; `T=../../../vendor/taste-skill`):
+Commands: first `cd runs/<date>/<slug>` (the working directory persists), so `.taste-skill/` lands there, then
+call the scripts with exactly this path. `.claude/settings.json` allows these five scripts in exactly this form
+(and from the repo root as `node vendor/taste-skill/scripts/...`); do not wrap them in variables, `env` or `&&`
+chains, or the night run will stop at a permission prompt nobody answers.
 ```bash
-node $T/scripts/draw.mjs --sector <closest sector> --brief "<one line>" --sections <roles> --have photography --options 3
-node $T/scripts/draw.mjs <same args> --direction <id>
-node $T/scripts/assets.mjs "<query from the inventory>"      # open-collection pictures of the town or trade, credited
-node $T/scripts/lint.mjs site/
-node $T/scripts/inspect.mjs site/index.html
+node ../../../vendor/taste-skill/scripts/draw.mjs --sector <closest sector> --brief "<one line>" --sections <roles> --have photography --options 3
+node ../../../vendor/taste-skill/scripts/draw.mjs <same args> --direction <id>
+node ../../../vendor/taste-skill/scripts/assets.mjs "<query from the inventory>"   # open-collection pictures, credited
+node ../../../vendor/taste-skill/scripts/lint.mjs site/
+node ../../../vendor/taste-skill/scripts/inspect.mjs site/index.html
 ```
+`cd` back to the repo root before running the Python scripts.
 
 Adaptations for this job:
 - **One page only:** `site/index.html` with its CSS, JS and `img/`. No inner pages. Every section the visitor
