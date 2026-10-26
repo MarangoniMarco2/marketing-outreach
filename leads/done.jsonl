@@ -1,5 +1,5 @@
-{"date": "2026-10-26", "place_id": null, "name": "Autofficina Berica", "website": "http://www.autofficinaberica.it/", "status": "drafted", "note": "sito completo + card, bozza Gmail creata a mano"}
-{"date": "2026-10-26", "place_id": null, "name": "Carrozzeria Re", "website": "https://carrozzeriare.com/", "status": "drafted", "note": "sito completo + card, bozza Gmail creata a mano"}
+{"date": "2026-10-26", "place_id": null, "name": "Autofficina Berica", "website": "http://www.autofficinaberica.it/", "status": "sent", "note": "mail inviata 2026-10-26 07:00 a info@autofficinaberica.it con card; sito completo a 4 pagine"}
+{"date": "2026-10-26", "place_id": null, "name": "Carrozzeria Re", "website": "https://carrozzeriare.com/", "status": "sent", "note": "mail inviata 2026-10-26 08:45 a info@carrozzeriare.com con card; sito completo a 4 pagine"}
 {"date": "2026-10-26", "place_id": null, "name": "Falegnameria Novello", "website": "https://www.falegnamerianovello.it/", "status": "excluded", "note": "recensioni: titolare scortese. Esiste una copia del sito su falegnamerianovello.pics"}
 {"date": "2026-10-26", "place_id": null, "name": "Falegnameria Muraro", "website": "https://www.falegnameriamuraro.it/", "status": "skipped", "note": "sito gia moderno"}
 {"date": "2026-10-26", "place_id": null, "name": "Termoidraulica Urbani", "website": "http://www.termoidraulicaurbani.it/", "status": "skipped", "note": "candidato valido, non ancora lavorato: si puo togliere da qui per riprenderlo"}
