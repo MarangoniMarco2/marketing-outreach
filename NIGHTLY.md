@@ -11,10 +11,10 @@ never sends an email and never contacts a business. Its only outputs are Gmail d
    - No Google Maps key: stop here and write `runs/<date>/summary.md` saying the key is missing.
    - No Gmail secrets: do the work, create `.eml` files with `--dry-run`, and say so in the summary.
    - If `config/signature.txt` does not exist, say so in the summary (drafts go out without signature).
-2. **Find.** `python3 scripts/find_leads.py pick --pairs 4`. If fewer than two candidates have
-   `alive_pct >= 55` and a `site_score >= 5`, run `pick --pairs 4` again (at most 12 pairs per night). Each pick
-   adds to `runs/<date>/candidates.json`. Chains are dropped and captcha-walled sites marked `retry` by the
-   script itself.
+2. **Find** (step 1 of the skill). `python3 scripts/find_leads.py next --pairs 4`, then for each pair two or
+   three web searches and one `check --query "<niche> <town>" <urls>` with the businesses' own websites. If fewer
+   than two candidates have `alive_pct >= 55` and a `site_score >= 4`, do `next --pairs 4` again (at most 12
+   pairs per night). Still nothing: `pick --pairs 4` (Google Maps first) once.
 3. **Choose 2 or 3.** Screenshot the best candidates' old home pages (desktop and phone) and look at them.
    Prefer `alive_pct >= 85`. `mark` every candidate you looked at and rejected so it is not picked again:
    `skipped` (not a good lead), `excluded` (never: rude owner, chain, red flags) or `retry` (good lead you could
@@ -29,7 +29,8 @@ never sends an email and never contacts a business. Its only outputs are Gmail d
 6. **Save.** `git add leads runs && git commit -m "Notte <date>: <n> bozze"` and `git push origin main`
    (this repo's main branch is the pipeline's memory: `leads/done.jsonl` and `leads/state.json` must persist).
    Retry the push with backoff on network errors. A 403 from the git proxy is not a network error: do not retry
-   it or look for other ways to publish; say in the final message that the push was refused.
+   it or look for other ways to publish; say in the final message that the push was refused. If the push is
+   rejected because `main` moved (the user may have pushed code), `git pull --rebase origin main` and push again.
 7. **Finish** with a short Italian message: how many drafts, for whom, and what needs the user's attention
    before sending.
 

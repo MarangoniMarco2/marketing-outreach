@@ -1,8 +1,17 @@
-"""Nightly prospecting: rotate niche x town, find businesses on Google Maps, keep the alive ones with an old website.
+"""Nightly prospecting: rotate niche x town, find old websites with a web search, keep the businesses that Google
+Maps shows alive.
 
 Usage:
+  python find_leads.py next [--pairs 4]
+      Takes the next niche/town pairs from leads/targets.json (cursor in leads/state.json) and prints them with
+      web search ideas. Search the web yourself, then pass the businesses' own websites to "check".
+  python find_leads.py check --query "autofficina Thiene" URL [URL ...] [--out runs/<date>/candidates.json]
+      For websites found with the web search: drops directories, social pages and businesses already in
+      leads/done.jsonl, scores each site, finds the business on Google Maps by its website, keeps it if it is
+      OPERATIONAL with enough reviews and not a chain, fetches reviews and hours (alive %) and adds it to the
+      night's candidates file. Captcha-walled sites and sites missing from Maps are marked "retry".
   python find_leads.py pick [--pairs 3] [--out runs/2026-10-27/candidates.json]
-      Takes the next niche/town pairs from leads/targets.json (cursor in leads/state.json), searches Google Maps,
+      Fallback when web search is not available: searches Google Maps directly for the next pairs,
       drops businesses already in leads/done.jsonl and chains/franchises, scores their websites and checks they
       are alive. Adds to the night's candidates file (a second pick does not overwrite the first). Sites behind a
       captcha/anti-bot wall are marked "retry" automatically: never try to get around the wall.
@@ -10,24 +19,43 @@ Usage:
       Records a business in leads/done.jsonl so it is not picked again ("retry": not for RETRY_DAYS days).
 Needs GOOGLE_MAPS_API_KEY (see places.py).
 """
-import hashlib, itertools, json, os, re, sys, unicodedata, urllib.parse
+import hashlib, html, itertools, json, os, re, sys, unicodedata, urllib.parse, urllib.request
+import concurrent.futures as cf
 from collections import Counter
 from datetime import date, timedelta
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import places
-from score_sites import score
+from score_sites import ctx, score
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 LEADS = os.path.join(ROOT, 'leads')
 NOT_A_SITE = ('facebook.', 'instagram.', 'paginegialle.', 'paginebianche.', 'virgilio.', 'google.', 'business.site',
-              'linktr.ee', 'wa.me', 'tripadvisor.', 'miodottore.', 'treatwell.')
+              'linktr.ee', 'wa.me', 'tripadvisor.', 'miodottore.', 'treatwell.',
+              # directories, marketplaces, news and public sites that show up in a web search
+              'prontopro.', 'infobel.', 'cylex', 'misterimprese.', 'guidamonaci.', 'kompass.', 'europages.', 'yelp.', 'youdriver.', 'prontoimprese.', 'aposto.it', 'saugo.', 'vittoriaassicurazioni.',
+              'habitissimo.', 'instapro.', 'starofservice.', 'tuttocitta.', 'hotfrog.', 'trovaaziende', 'reteimprese.',
+              'registroimprese.', 'ufficiocamerale.', 'informazione-aziende.', 'companyreports.',
+              'linkedin.', 'youtube.', 'tiktok.', 'subito.it', 'idealista.', 'immobiliare.it', 'wikipedia.',
+              'amazon.', 'groupon.', 'doctolib.', 'dentisti-italia.', 'top-doctors', 'quandoo.', 'thefork.',
+              'ilgiornaledivicenza.', 'vicenzatoday.', 'comune.', 'gov.it', 'mappe.', 'yellowpages', 'trovalost.', 'infoisinfo.', 'micuro.', 'idraulico24.', 'termoidraulici.it', 'sosmastro.',
+              'dovemivesto', 'oraridiapertura', 'orari-apertura', 'bing.', 'apple.com')
 RETRY_DAYS = 30
 
 
 def domain(url):
     h = urllib.parse.urlparse(url or '').hostname or ''
     return h[4:] if h.startswith('www.') else h
+
+
+def same_site(a, b):
+    """Two website addresses of the same business (www., m. and .it/.com variants of one name count as one)."""
+    a, b = (re.sub(r'^m\.', '', domain(x)) for x in (a, b))
+    if not a or not b: return False
+    if a == b: return True
+    la, lb = a.split('.')[0], b.split('.')[0]
+    builder = re.search(r'webnode|jimdo|wix|altervista|blogspot|wordpress\.com', a + b)
+    return la == lb and len(la) >= 6 and a.count('.') == b.count('.') == 1 and not builder
 
 
 def slug(s):
@@ -75,6 +103,89 @@ def pairs(n):
     return out
 
 
+def show_next(n_pairs):
+    for niche, town in pairs(n_pairs):
+        print(f'\n{niche} | {town}\n  web: "{niche} {town}"   "{niche} {town} contatti"   "{niche} vicino a {town}"'
+              f'\n  then: python3 scripts/find_leads.py check --query "{niche} {town}" <url> <url> ...')
+
+
+def site_name(url):
+    """The name the site gives itself (og:site_name or the first part of <title>), to look it up on Maps."""
+    try:
+        h = urllib.request.urlopen(urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'}), timeout=20,
+                                   context=ctx).read(300000).decode('utf-8', 'replace')
+    except Exception:
+        return ''
+    m = re.search(r'property=["\']og:site_name["\'] content=["\']([^"\']+)', h, re.I) or re.search(r'<title[^>]*>([^<]+)', h, re.I)
+    t = re.sub(r'\s+', ' ', html.unescape(m.group(1))).strip() if m else ''
+    return re.split(r'\s[|\-–—:·»]\s|\s[|–—»]', t)[0].strip()[:60]
+
+
+def on_maps(url, final, town):
+    """The Google Maps listing whose website is this site, or None."""
+    label = re.sub(r'^m\.', '', domain(final or url)).split('.')[0]
+    name = site_name(final or url)
+    tried = set()
+    for q in (f'{name} {town}' if name else '', f'{label} {town}', re.sub(r'^m\.', '', domain(final or url))):
+        q = q.strip()
+        if not q or q in tried: continue
+        tried.add(q)
+        for r in places.search(q, 10):
+            if r['website'] and (same_site(r['website'], url) or same_site(r['website'], final)): return r
+    return None
+
+
+def check(query, urls, out_path, min_reviews=5, min_score=3):  # lower bar than pick: few URLs, and your eyes choose
+    places.key()
+    ids, doms = load_done()
+    t = targets()
+    town = max((x for x in t['towns'] if x.lower() in query.lower()), key=len, default='')
+    found = json.load(open(out_path, encoding='utf-8')) if os.path.exists(out_path) else []
+    ids |= {p['place_id'] for p in found}; doms |= {domain(p['website']) for p in found}
+    todo, seen = [], set()
+    for u in urls:
+        u = u.strip().rstrip('.,;)')
+        if not u.startswith('http'): u = 'http://' + u
+        d = domain(u)
+        if not d or d in seen: continue
+        seen.add(d)
+        if any(x in u.lower() for x in NOT_A_SITE): print(f'--  {d}: directory/social, not a business site'); continue
+        if d in doms: print(f'--  {d}: already in done.jsonl or in tonight\'s candidates'); continue
+        todo.append(urllib.parse.urlunparse(urllib.parse.urlparse(u)._replace(query='', fragment='')))
+    with cf.ThreadPoolExecutor(8) as ex:
+        scores = list(ex.map(score, todo))
+    added = 0
+    for url, (s, final, flags) in zip(todo, scores):
+        d = domain(url)
+        if flags.startswith('BLOCKED'):
+            record(None, d, url, 'retry', f'sito dietro captcha/anti-bot, riprovare dopo {RETRY_DAYS} giorni')
+            print(f'--  {d}: behind a captcha/anti-bot wall, marked retry'); continue
+        if flags.startswith('ERROR'): print(f'--  {d}: {flags}'); continue
+        if s < min_score: print(f'--  {d}: site score {s}, not outdated enough ({flags})'); continue
+        p = on_maps(url, final, town)
+        if not p:
+            record(None, d, url, 'retry', f'non trovata su Google Maps (punteggio sito {s}); verificare a mano')
+            print(f'--  {d}: score {s} but no Google Maps listing with this website, marked retry'); continue
+        why = (p['place_id'] in ids and 'already seen') or (p['status'] != 'OPERATIONAL' and f'Maps: {p["status"]}') \
+            or (p['reviews'] < min_reviews and f'only {p["reviews"]} reviews') or chain_reason(p, Counter(), t)
+        if why:
+            if p['status'] == 'CLOSED_PERMANENTLY': record(p['place_id'], p['name'], url, 'excluded', 'chiusa su Google Maps')
+            print(f'--  {d}: {p["name"]}: {why}'); continue
+        det = places.detail(p['place_id'])
+        found.append({**p, **{k: det[k] for k in ('hours', 'review_list', 'newest_review', 'newest_review_days', 'alive_pct', 'phone_intl')},
+                      'site_score': s, 'final_url': final, 'flags': flags, 'query': query, 'source': 'web'})
+        ids.add(p['place_id']); doms.add(d); added += 1
+        print(f'OK  {d}: {p["name"]}, score {s}, alive {det["alive_pct"]}% ({p["reviews"]} rec., ultima {det["newest_review"]}) {flags}')
+    save(found, out_path)
+    print(f'{query}: {added} new candidates, {len(found)} in {out_path}')
+
+
+def save(found, out_path):
+    found.sort(key=lambda p: (-(p['alive_pct'] >= 55), -p['site_score'], -p['alive_pct']))
+    os.makedirs(os.path.dirname(out_path), exist_ok=True)
+    json.dump(found, open(out_path, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+
+
 def pick(n_pairs, out_path, min_reviews=5, min_score=4, details_per_pair=4):
     places.key()  # fail before moving the cursor
     ids, doms = load_done()
@@ -112,9 +223,7 @@ def pick(n_pairs, out_path, min_reviews=5, min_score=4, details_per_pair=4):
             found.append(p)
         print(f'{q}: {len(hits)} with a website, {len(scored)} outdated, {chains} chains, {walls} behind anti-bot (marked retry)',
               file=sys.stderr)
-    found.sort(key=lambda p: (-(p['alive_pct'] >= 55), -p['site_score'], -p['alive_pct']))
-    os.makedirs(os.path.dirname(out_path), exist_ok=True)
-    json.dump(found, open(out_path, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
+    save(found, out_path)
     for p in found:
         print(f"{p['site_score']:>2}  alive {p['alive_pct']:>3}%  {p['name']}  {p['final_url']}  "
               f"({p['reviews']} rec., ultima {p['newest_review']})  {p['flags']}")
@@ -137,10 +246,14 @@ def mark(place_id, a):
 if __name__ == '__main__':
     a = sys.argv[1:]
     sys.stdout.reconfigure(encoding='utf-8')
-    if a[:1] == ['pick']:
-        n = int(a[a.index('--pairs') + 1]) if '--pairs' in a else 3
-        out = a[a.index('--out') + 1] if '--out' in a else os.path.join(ROOT, 'runs', date.today().isoformat(), 'candidates.json')
-        pick(n, out)
+    out = a[a.index('--out') + 1] if '--out' in a else os.path.join(ROOT, 'runs', date.today().isoformat(), 'candidates.json')
+    if a[:1] == ['next']:
+        show_next(int(a[a.index('--pairs') + 1]) if '--pairs' in a else 4)
+    elif a[:1] == ['check'] and '--query' in a:
+        opts = {i + 1 for i, x in enumerate(a) if x in ('--query', '--out')} | {i for i, x in enumerate(a) if x in ('--query', '--out')}
+        check(a[a.index('--query') + 1], [x for i, x in enumerate(a[1:], 1) if i not in opts], out)
+    elif a[:1] == ['pick']:
+        pick(int(a[a.index('--pairs') + 1]) if '--pairs' in a else 3, out)
     elif a[:1] == ['mark'] and len(a) > 1:
         mark(a[1], a)
     else:
