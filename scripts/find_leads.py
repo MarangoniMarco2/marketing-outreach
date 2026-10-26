@@ -138,6 +138,16 @@ def is_chain(c, name, host):
                for l in host.split('.')[:-1])
 
 
+def outside(p, t):
+    """Maps answers "albergo Noventa Vicentina" with places in the next province too: keep only the target area
+    (targets.json "province": the code in the address, e.g. "VI", and the postcode prefix, e.g. "36")."""
+    pr = t.get('province')
+    if not pr: return None
+    a = p.get('address') or ''
+    if re.search(rf'\b{pr["code"]}\b', a) or re.search(rf'\b{pr["cap_prefix"]}\d{{3}}\b', a): return None
+    return f'outside the province ({a[-40:]})'
+
+
 def chain_reason(p, shared, t):
     """Why this looks like a chain or franchise (no owner to pitch, the site is the brand's), or None."""
     hit = next((c for c in t.get('chains', []) if is_chain(c, p['name'], domain(p['website']))), None)
@@ -231,7 +241,7 @@ def check(query, urls, out_path, min_reviews=5, min_score=3):  # lower bar than 
             record(None, d, url, 'retry', f'non trovata su Google Maps (punteggio sito {s}); verificare a mano')
             print(f'--  {d}: score {s} but no Google Maps listing with this website, marked retry'); continue
         why = (p['place_id'] in ids and 'already seen') or (p['status'] != 'OPERATIONAL' and f'Maps: {p["status"]}') \
-            or (p['reviews'] < min_reviews and f'only {p["reviews"]} reviews') or chain_reason(p, Counter(), t)
+            or (p['reviews'] < min_reviews and f'only {p["reviews"]} reviews') or outside(p, t) or chain_reason(p, Counter(), t)
         if why:
             if p['status'] == 'CLOSED_PERMANENTLY': record(p['place_id'], p['name'], url, 'excluded', 'chiusa su Google Maps')
             print(f'--  {d}: {p["name"]}: {why}'); continue
@@ -285,6 +295,9 @@ def pick(n_pairs, out_path, min_reviews=5, min_score=3, details_per_pair=4, quer
                     and p['place_id'] not in ids and site_key(p['website']) not in doms
                     and not not_a_site(p['website'])):
                 continue
+            far = outside(p, t)
+            if far:
+                print(f'  skipped: {p["name"]} ({far})', file=sys.stderr); continue
             why = chain_reason(p, shared, t)
             if why:
                 chains += 1; print(f'  chain: {p["name"]} ({why})', file=sys.stderr); continue

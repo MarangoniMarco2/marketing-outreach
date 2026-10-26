@@ -1,5 +1,5 @@
 {
- "note": "Every niche is searched in every town, one pair after another (cursor in state.json). \"chains\": brand names never pitched (franchises and chains, matched on name and website). Edit freely.",
+ "note": "Every niche is searched in every town, one pair after another (cursor in state.json). \"chains\": brand names never pitched (franchises and chains, matched on name and website). \"province\": only businesses whose address has this province code or postcode prefix. Edit freely.",
  "niches": [
   "autofficina",
   "carrozzeria",
@@ -105,5 +105,9 @@
   "Internorm",
   "Rehau",
   "Fabbrica Serramenti"
- ]
+ ],
+ "province": {
+  "code": "VI",
+  "cap_prefix": "36"
+ }
 }
