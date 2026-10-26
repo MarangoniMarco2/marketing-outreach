@@ -34,4 +34,4 @@
 
 ## Bozza
 - A: studioperinmichele@libero.it. Oggetto: "Studio Dentistico Perin: un'anteprima del vostro nuovo sito".
-- Allegati: card.jpg (0.2 MB), scroll-mobile.gif (3.4 MB), scroll-desktop.gif (1.6 MB). Draft id r-2256344030578497823.
+- Allegati: card.jpg (0.2 MB), scroll-mobile.gif (3.5 MB), scroll-desktop.gif (1.7 MB). Draft id r-2256344030578497823.
