@@ -3,8 +3,9 @@
 What the scheduled session does every night. It works alone: nobody is watching, so it never asks questions,
 never sends an email and never contacts a business. Its only outputs are Gmail drafts and commits to this repo.
 
-1. **Setup.** `cd /home/user/marketing-outreach` (the repo is already there; if it is not, stop and say so: a
-   fresh clone cannot push), `git checkout main`, `git pull origin main`, then `bash scripts/setup_session.sh`.
+1. **Setup.** Work in the session's own checkout of this repo (normally `/home/user/marketing-outreach`; the
+   session must have the repo among its sources, a fresh `git clone` cannot push). `git checkout main`,
+   `git pull origin main`, then `bash scripts/setup_session.sh`.
    It checks the secrets by name only (never print their values):
    `GOOGLE_MAPS_API_KEY`, `GMAIL_CLIENT_ID`, `GMAIL_CLIENT_SECRET`, `GMAIL_REFRESH_TOKEN`.
    - No Google Maps key: stop here and write `runs/<date>/summary.md` saying the key is missing.
