@@ -98,48 +98,83 @@ else
 fi
 
 # ---------- 6. Client OAuth (unico passo a mano) ----------
-say "Client OAuth: questo passo va fatto a mano (Google non lo permette da script)"
-cat <<EOF
+# Google shows a client secret only once, so keep it in Cloud Shell (private home, mode 600) for re-runs.
+OAUTH_FILE="$HOME/.lead-rebuilder-oauth"
+CLIENT_ID=""; CLIENT_SECRET=""
+if [ -f "$OAUTH_FILE" ]; then
+  . "$OAUTH_FILE"
+  say "Client OAuth: uso quello salvato la volta scorsa (${CLIENT_ID:0:12}...)"
+  read -rp "    Va bene? [S/n] " REUSE
+  case "$REUSE" in n|N) CLIENT_ID=""; CLIENT_SECRET="";; esac
+fi
+if [ -z "$CLIENT_ID" ] || [ -z "$CLIENT_SECRET" ]; then
+  say "Client OAuth: questo passo va fatto a mano (Google non lo permette da script)"
+  cat <<EOF
     1) Apri:  https://console.cloud.google.com/apis/credentials/oauthclient?project=$PROJECT
     2) Tipo di applicazione: "App desktop"     Nome: "Lead Rebuilder"     poi "Crea"
-    3) Nella finestra che si apre copia "ID client" e "Client secret" e incollali qui sotto.
+       (se il client esiste gia: aprilo e clicca "Aggiungi secret" per averne uno nuovo)
+    3) Copia "ID client" e "Client secret" e incollali qui sotto.
 EOF
-read -rp  "    ID client: " CLIENT_ID
-read -rsp "    Client secret (non si vede mentre incolli): " CLIENT_SECRET; echo
-[ -n "$CLIENT_ID" ] && [ -n "$CLIENT_SECRET" ] || die "ID client o secret vuoti."
+  read -rp  "    ID client: " CLIENT_ID
+  read -rsp "    Client secret (non si vede mentre incolli): " CLIENT_SECRET; echo
+  CLIENT_ID=$(echo "$CLIENT_ID" | tr -d '[:space:]'); CLIENT_SECRET=$(echo "$CLIENT_SECRET" | tr -d '[:space:]')
+  [ -n "$CLIENT_ID" ] && [ -n "$CLIENT_SECRET" ] || die "ID client o secret vuoti."
+  ( umask 077; printf 'CLIENT_ID=%q\nCLIENT_SECRET=%q\n' "$CLIENT_ID" "$CLIENT_SECRET" > "$OAUTH_FILE" )
+  ok "salvato in $OAUTH_FILE (solo nella tua Cloud Shell)"
+fi
 
 # ---------- 7. Refresh token Gmail + prova ----------
 say "Autorizzazione Gmail (permesso: solo creare bozze)"
 PY=$(mktemp)
 cat > "$PY" <<'PYEOF'
-import base64, json, os, sys, urllib.error, urllib.parse, urllib.request
+import base64, hashlib, json, os, secrets, sys, urllib.error, urllib.parse, urllib.request
 cid, sec = os.environ['CLIENT_ID'], os.environ['CLIENT_SECRET']
 redirect = 'http://localhost:8080'
-err = sys.stderr.write
-url = 'https://accounts.google.com/o/oauth2/v2/auth?' + urllib.parse.urlencode({
-    'client_id': cid, 'redirect_uri': redirect, 'response_type': 'code', 'access_type': 'offline',
-    'prompt': 'consent', 'scope': 'https://www.googleapis.com/auth/gmail.compose'})
-err('\n    1) Apri questo link nel browser, scegli il tuo account e consenti:\n\n' + url + '\n\n')
-err('    2) Alla fine il browser mostra "Impossibile raggiungere il sito": e normale.\n')
-err('       Copia TUTTO l\'indirizzo dalla barra del browser (inizia con http://localhost:8080/?) e incollalo qui.\n\n')
-err('    Indirizzo: ')
-pasted = sys.stdin.readline().strip()
-code = urllib.parse.parse_qs(urllib.parse.urlparse(pasted).query).get('code', [pasted])[0]
-def call(req):
+def err(s): sys.stderr.write(s); sys.stderr.flush()  # flush: the prompt must show before the paste
+def call(req, fatal=True):
     try:
-        return urllib.request.urlopen(req, timeout=60)
+        return json.load(urllib.request.urlopen(req, timeout=60))
     except urllib.error.HTTPError as e:
-        err(f'\n    Errore Google {e.code}: {e.read().decode()[:400]}\n'); sys.exit(1)
-tok = json.load(call(urllib.request.Request('https://oauth2.googleapis.com/token', urllib.parse.urlencode({
-    'code': code, 'client_id': cid, 'client_secret': sec, 'redirect_uri': redirect,
-    'grant_type': 'authorization_code'}).encode())))
-if 'refresh_token' not in tok:
-    err('\n    Google non ha restituito il refresh token: rilancia lo script.\n'); sys.exit(1)
+        body = e.read().decode()[:400]
+        if fatal:
+            err(f'\n    Errore Google {e.code}: {body}\n'); sys.exit(1)
+        return {'_error': body}
+
+tok = None
+for attempt in range(1, 4):
+    verifier = secrets.token_urlsafe(64)  # PKCE, recommended by Google for desktop clients
+    challenge = base64.urlsafe_b64encode(hashlib.sha256(verifier.encode()).digest()).decode().rstrip('=')
+    url = 'https://accounts.google.com/o/oauth2/v2/auth?' + urllib.parse.urlencode({
+        'client_id': cid, 'redirect_uri': redirect, 'response_type': 'code', 'access_type': 'offline',
+        'prompt': 'consent', 'scope': 'https://www.googleapis.com/auth/gmail.compose',
+        'code_challenge': challenge, 'code_challenge_method': 'S256'})
+    err(f'\n    Tentativo {attempt} di 3. Fai questi passaggi di seguito, il codice vale pochi minuti.\n')
+    err('\n    1) Apri questo link NUOVO nel browser, scegli il tuo account e consenti:\n\n' + url + '\n\n')
+    err('    2) Alla fine il browser mostra "Impossibile raggiungere il sito": e normale.\n')
+    err('       Copia TUTTO l\'indirizzo dalla barra del browser (inizia con http://localhost:8080/?) e incollalo qui.\n\n')
+    err('    Indirizzo: ')
+    # drop bracketed-paste markers some terminals add around pasted text
+    pasted = sys.stdin.readline().replace('\x1b[200~', '').replace('\x1b[201~', '').strip()
+    code = urllib.parse.parse_qs(urllib.parse.urlparse(pasted).query).get('code', [pasted])[0]
+    tok = call(urllib.request.Request('https://oauth2.googleapis.com/token', urllib.parse.urlencode({
+        'code': code, 'client_id': cid, 'client_secret': sec, 'redirect_uri': redirect,
+        'grant_type': 'authorization_code', 'code_verifier': verifier}).encode()), fatal=False)
+    if 'refresh_token' in tok: break
+    reason = tok.get('_error', 'manca il refresh token')
+    if 'invalid_client' in reason:
+        err('\n    ID client o Client secret non validi. Rilancia lo script e rispondi "n" per inserirli di nuovo.\n'); sys.exit(1)
+    err(f'\n    Non riuscito ({reason.strip()[:160]}). Ripetiamo con un link nuovo: non riusare il vecchio indirizzo.\n')
+else:
+    err('\n    Tre tentativi falliti. Controlla di usare lo stesso account Google e rilancia lo script.\n'); sys.exit(1)
 auth = {'Authorization': 'Bearer ' + tok['access_token'], 'Content-Type': 'application/json'}
 raw = base64.urlsafe_b64encode('Subject: Prova Lead Rebuilder\r\n\r\nBozza di prova, viene cancellata subito.'.encode()).decode()
-d = json.load(call(urllib.request.Request('https://gmail.googleapis.com/gmail/v1/users/me/drafts',
-                                          json.dumps({'message': {'raw': raw}}).encode(), auth)))
-call(urllib.request.Request(f"https://gmail.googleapis.com/gmail/v1/users/me/drafts/{d['id']}", method='DELETE', headers=auth))
+d = call(urllib.request.Request('https://gmail.googleapis.com/gmail/v1/users/me/drafts',
+                                json.dumps({'message': {'raw': raw}}).encode(), auth))
+try:  # DELETE answers with an empty body
+    urllib.request.urlopen(urllib.request.Request(f"https://gmail.googleapis.com/gmail/v1/users/me/drafts/{d['id']}",
+                                                  method='DELETE', headers=auth), timeout=60)
+except urllib.error.HTTPError as e:
+    err(f'    (la bozza di prova non si e cancellata da sola, eliminala a mano: {e.code})\n')
 err('    OK bozza di prova creata e cancellata: Gmail funziona.\n')
 print(tok['refresh_token'])
 PYEOF
