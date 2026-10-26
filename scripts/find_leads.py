@@ -13,7 +13,7 @@ Usage:
   python find_leads.py show [--out runs/<date>/candidates.json]
       Tonight's candidates in a few lines each: site score and flags, alive %, rating, and the Google reviews
       (stars, month, first 160 characters) to spot red flags. Read this instead of candidates.json.
-  python find_leads.py pick [--pairs 3] [--out runs/2026-10-27/candidates.json]
+  python find_leads.py pick [--pairs 3] [--out runs/<date>/candidates.json]
       Fallback when web search is not available: searches Google Maps directly for the next pairs,
       drops businesses already in leads/done.jsonl and chains/franchises, scores their websites and checks they
       are alive. Adds to the night's candidates file (a second pick does not overwrite the first). Sites behind a
