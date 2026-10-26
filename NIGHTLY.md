@@ -1,8 +1,9 @@
 # Nightly run
 
-The scheduled session only coordinates; the work happens in sub-agents, each starting with a clean context. Every
-turn re-reads the whole conversation, so one long conversation gets more expensive with every step: split into
-agents, the search and each lead pay only for their own steps, and the leads are built in parallel.
+The scheduled session starts each night with a clean context, does the lead search itself (short), and hands each
+chosen lead to its own build agent. Every turn re-reads the whole conversation, so one long conversation gets more
+expensive with every step: split this way, each lead pays only for its own steps, and the leads are built in
+parallel. Every extra agent also costs its own start (instructions and tools), so no agent for small jobs.
 
 Nobody is watching: never ask questions, never send an email, never contact a business. The only outputs are
 Gmail drafts and commits to this repo.
@@ -14,9 +15,16 @@ Gmail drafts and commits to this repo.
    - A `FAIL` line or no `GOOGLE_MAPS_API_KEY`: write `runs/<date>/summary.md` with the reason, commit, push, stop.
    - A `WARN ... use /usr/bin/python3.X` line: tell every agent to use that path instead of `python3`.
    - No Gmail secrets: the drafts become `.eml` files by themselves (`finish_lead.py`); say so in the summary.
-2. Start the **search agent** (Agent tool, general-purpose) with the prompt below and wait for its answer.
-3. No leads: go to 5. Otherwise start **one build agent per lead, all in the same message** so they run in
-   parallel (at most 3), each with the prompt below and that lead's line. Wait for all of them.
+2. **Search yourself**: read only the sections "Lean context" and "Step 1" of `skills/website-rebuilder/SKILL.md`
+   and do Step 1: `find_leads.py next --pairs 4`, two or three web searches per pair, one `check` per pair with
+   the businesses' own websites; repeat `next` until at least two candidates have alive_pct >= 55 and
+   site_score >= 4, at most 12 pairs; still nothing, `pick --pairs 4` once. Then `find_leads.py show` and one
+   `peek.py` image of the best old sites, and choose at most 3 leads: alive (prefer alive_pct >= 85), clearly old
+   site, real content to work with, no red flags in the reviews. `mark` every candidate you looked at and
+   rejected (skipped, excluded or retry, with the reason). Never try to get around a captcha.
+3. No leads: go to 5. Otherwise start **one build agent per lead, all in the same message** (Agent tool,
+   general-purpose) so they run in parallel (at most 3), each with the prompt below and that lead's line
+   `{"place_id": "...", "name": "...", "town": "...", "url": "...", "slug": "short-kebab-name"}`. Wait for all.
 4. If a build agent failed or stopped early, do not redo its work yourself: list it in the summary.
 5. Write `runs/<date>/summary.md` in Italian (template below), then
    `git add leads runs && git commit -qm "Notte <date>: <n> bozze" && git push -q origin main`.
@@ -24,19 +32,6 @@ Gmail drafts and commits to this repo.
    again. A 403 from the git proxy: do not retry or look for other ways to publish; say the push was refused.
 6. Send a push notification with 2-3 lines (how many drafts, for whom, what to check before sending) and end with
    the same lines in Italian.
-
-### Search agent prompt
-> Lead search for tonight's Lead Rebuilder run. Repo: /home/user/marketing-outreach (start every command with
-> `cd` there). Read only the sections "Lean context" and "Step 1" of skills/website-rebuilder/SKILL.md and do
-> Step 1: `find_leads.py next --pairs 4`, two or three web searches per pair, one `check` per pair with the
-> businesses' own websites; repeat `next` until at least two candidates have alive_pct >= 55 and site_score >= 4,
-> at most 12 pairs; still nothing, `pick --pairs 4` once. Then `find_leads.py show`, one `peek.py` image of the
-> best old sites, and choose at most 3 leads: alive (prefer alive_pct >= 85), clearly old site, real content to
-> work with, no red flags in the reviews. `mark` every candidate you looked at and rejected (skipped, excluded or
-> retry, with the reason). Never try to get around a captcha. Do not commit.
-> Answer with nothing but one JSON line per chosen lead,
-> `{"place_id": "...", "name": "...", "town": "...", "url": "...", "slug": "short-kebab-name", "why": "one line"}`,
-> then one line `REJECTED: <name: reason>; ...` and one line `PAIRS: <the pairs searched>`.
 
 ### Build agent prompt
 > Build one lead for tonight's Lead Rebuilder run. Repo: /home/user/marketing-outreach. Lead: <the JSON line>.
