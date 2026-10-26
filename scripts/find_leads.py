@@ -13,6 +13,9 @@ Usage:
   python find_leads.py show [--out runs/<date>/candidates.json]
       Tonight's candidates in a few lines each: site score and flags, alive %, rating, and the Google reviews
       (stars, month, first 160 characters) to spot red flags. Read this instead of candidates.json.
+  python find_leads.py maps --query "autofficina Thiene" [--query "..."] [--out runs/<date>/candidates.json]
+      The Google Maps half of the double search, for the pairs `next` printed (the cursor does not move):
+      Maps lists businesses whose old sites never reach the first page of a web search.
   python find_leads.py pick [--pairs 3] [--out runs/<date>/candidates.json]
       Fallback when web search is not available: searches Google Maps directly for the next pairs,
       drops businesses already in leads/done.jsonl and chains/franchises, scores their websites and checks they
@@ -161,7 +164,8 @@ def pairs(n):
 def show_next(n_pairs):
     for niche, town in pairs(n_pairs):
         print(f'\n{niche} | {town}\n  web: "{niche} {town}"   "{niche} {town} contatti"   "{niche} vicino a {town}"'
-              f'\n  then: python3 scripts/find_leads.py check --query "{niche} {town}" <url> <url> ...')
+              f'\n  then: python3 scripts/find_leads.py check --query "{niche} {town}" <url> <url> ...'
+              f'\n  and:  python3 scripts/find_leads.py maps --query "{niche} {town}"')
 
 
 def site_name(url):
@@ -264,15 +268,15 @@ def save(found, out_path):
     json.dump(found, open(out_path, 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 
 
-def pick(n_pairs, out_path, min_reviews=5, min_score=4, details_per_pair=4):
+def pick(n_pairs, out_path, min_reviews=5, min_score=3, details_per_pair=4, queries=None):
+    """Google Maps first: the next n_pairs from the cursor, or the given queries (the pairs of `next`, cursor untouched)."""
     places.key()  # fail before moving the cursor
     ids, doms = load_done()
     t = targets()
     # earlier picks of the same night stay: add to them instead of overwriting
     found = load_found(out_path)
     ids |= {p['place_id'] for p in found}
-    for niche, town in pairs(n_pairs):
-        q = f'{niche} {town}'
+    for q in queries or [f'{niche} {town}' for niche, town in pairs(n_pairs)]:
         res = places.search(q)
         shared = Counter(site_key(p['website']) for p in res if p['website'])
         hits, chains = [], 0
@@ -332,6 +336,8 @@ if __name__ == '__main__':
     elif a[:1] == ['check'] and '--query' in a:
         opts = {i + 1 for i, x in enumerate(a) if x in ('--query', '--out')} | {i for i, x in enumerate(a) if x in ('--query', '--out')}
         check(a[a.index('--query') + 1], [x for i, x in enumerate(a[1:], 1) if i not in opts], out)
+    elif a[:1] == ['maps'] and '--query' in a:
+        pick(0, out, queries=[a[i + 1] for i, x in enumerate(a) if x == '--query'])
     elif a[:1] == ['pick']:
         pick(int(a[a.index('--pairs') + 1]) if '--pairs' in a else 3, out)
     elif a[:1] == ['mark'] and len(a) > 1:

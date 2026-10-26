@@ -47,10 +47,11 @@ Output for one business goes in `runs/<date>/<slug>/`:
 coordinator gives it. Pass it as `--date` to `prepare_lead.py` and `finish_lead.py`, so a build that goes past
 midnight stays in one folder.
 
-## Step 1: Find prospects (web search first, Google Maps to check)
+## Step 1: Find prospects (double search: web and Google Maps, Maps to check)
 
-The web search finds sites that are really there to rebuild (own domain, real text and photos); Google Maps then
-says whether the business behind them is alive.
+Each pair is searched twice. The web search finds sites that are really there to rebuild (own domain, real text
+and photos); a Google Maps search of the same pair finds the businesses whose old sites never reach the first
+page of a web search. Maps also says whether the business is alive.
 
 ```bash
 python3 scripts/find_leads.py next --pairs 4
@@ -73,8 +74,14 @@ few reviews, chain) or `OK` with the Maps name, site score, alive % and newest r
 `runs/<date>/candidates.json` with reviews and hours (several `check` calls add up). Captcha-walled sites and
 sites with no Maps listing are marked `retry`, permanently closed ones `excluded`.
 
-Fallback (web search not available, or still nothing after 12 pairs): `python3 scripts/find_leads.py pick
---pairs 4` searches Google Maps directly for the next pairs and fills the same candidates file.
+Then the Maps half, for the same pairs (the cursor does not move again):
+```bash
+python3 scripts/find_leads.py maps --query "autofficina Thiene" --query "carrozzeria Schio" ...
+```
+It searches Google Maps for each pair, keeps businesses with a real website and enough reviews, scores the sites
+and adds the outdated ones to the same candidates file (already seen businesses are skipped).
+
+Without web search, `python3 scripts/find_leads.py pick --pairs 4` does the Maps half alone for the next pairs.
 
 A single business given by the user skips this step: use `python3 scripts/places.py search "<name> <town>"` and
 `details <place_id>` to get the same data.

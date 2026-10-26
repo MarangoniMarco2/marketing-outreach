@@ -13,7 +13,7 @@ Jonny West) e [taste-skill](https://github.com/Leonxlnx/taste-skill) v2 (MIT, Le
 La sessione notturna coordina e basta; il lavoro lo fanno agenti separati, ognuno con il suo contesto pulito
 (costa meno e i lead si costruiscono in parallelo):
 1. **Ricerca.** `scripts/find_leads.py next` dà i prossimi settori e comuni da `leads/targets.json`; l'agente li
-   cerca sul web e `find_leads.py check` dà un punteggio ai siti trovati, scarta directory, catene e attività già
+   cerca sul web e su Google Maps (`find_leads.py check` e `maps`), dà un punteggio ai siti trovati, scarta directory, catene e attività già
    viste (`leads/done.jsonl`) e verifica su Google Maps che l'attività sia viva. `find_leads.py show` e
    `peek.py` servono a scegliere i 2-3 migliori.
 2. **Un agente per lead.** `prepare_lead.py` raccoglie in un colpo dati Google, testi, foto e screenshot PRIMA;

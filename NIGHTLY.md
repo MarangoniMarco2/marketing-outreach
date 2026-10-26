@@ -21,9 +21,9 @@ If the scheduled prompt still speaks of a separate search agent, this file wins:
    - No Gmail secrets: the drafts become `.eml` files by themselves (`finish_lead.py`) and the leads are not
      recorded as drafted; say so in the summary.
 2. **Search yourself**: read only the sections "Lean context" and "Step 1" of `skills/website-rebuilder/SKILL.md`
-   and do Step 1: `find_leads.py next --pairs 4`, two or three web searches per pair, one `check` per pair with
-   the businesses' own websites; repeat `next` until at least two candidates have alive_pct >= 55 and
-   site_score >= 4, at most 12 pairs; still nothing, `pick --pairs 4` once. Then `find_leads.py show` and one
+   and do Step 1, the double search: `find_leads.py next --pairs 4`; for each pair two or three web searches and
+   one `check` with the businesses' own websites; then one `maps --query` call with the same 4 pairs. Repeat until
+   at least three candidates have alive_pct >= 55 and site_score >= 4, at most 12 pairs. Then `find_leads.py show` and one
    `peek.py` image of the best old sites, and choose at most 3 leads: alive (prefer alive_pct >= 85), clearly old
    site, real content to work with, no red flags in the reviews. `mark` every candidate you looked at and
    rejected (skipped, excluded or retry, with the reason). Never try to get around a captcha.
