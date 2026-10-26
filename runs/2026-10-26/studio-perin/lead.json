@@ -1,0 +1,58 @@
+{
+ "place_id": "ChIJU2wsZHDQeEcRmTXARJbSV3k",
+ "name": "Studio dentistico Perin dott. Michele",
+ "address": "Via Bortolo Sacchi, 3, 36061 Bassano del Grappa VI, Italia",
+ "website": "http://www.studioperinmichele.it/",
+ "status": "OPERATIONAL",
+ "rating": 4.6,
+ "reviews": 22,
+ "phone": "0424 568407",
+ "type": "Dentista",
+ "maps": "https://maps.google.com/?cid=8743688744403482009&g_mp=CiVnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLkdldFBsYWNlEAIYBCAA",
+ "phone_intl": "+39 0424 568407",
+ "hours": [
+  "lunedì: 08:30–19:00",
+  "martedì: 10:00–19:00",
+  "mercoledì: 08:30–19:00",
+  "giovedì: 10:00–19:00",
+  "venerdì: 08:30–15:30",
+  "sabato: Chiuso",
+  "domenica: Chiuso"
+ ],
+ "review_list": [
+  {
+   "rating": 5,
+   "date": "2026-08-08",
+   "author": "Michela Grigoletto",
+   "text": "Studio dentistico ottimo. Personale gentile e accogliente. Segreteria gentilissima 💯💯 Dottor.Michele bravissimo e paziente 💯💯💯💯"
+  },
+  {
+   "rating": 5,
+   "date": "2019-12-12",
+   "author": "Luca",
+   "text": "Studio dentistico di prima classe, sempre pulitissimo e in ordine, il personale è cordiale e sempre sorridente. E poi c’è il top...lui il dottor Perin Michele sempre positivo e pronto a risolvere i problemi, le sue mani sono fatate quando “lavora” sulla tua bocca, che usi il trapano o le siringhe X l’anestesia, non si sente nessun dolore. L’asportazione del mio primo dente del giudizio non me ne sono neanche accorto..io odiavo frequentare studi dentistici perché soffrivo e mi facevano sempre male, invece qui devo dire che oltre a divertirmi esco sempre con il sorriso e senza dolore.\nPosizione comoda anche con ampio parcheggio. Consigliatissimo"
+  },
+  {
+   "rating": 5,
+   "date": "2026-05-06",
+   "author": "Ambra Maiorana",
+   "text": "Il Dott Perin e tutto il suo suo staff di medici, assistenti e soprattutto la bravissima ed efficiente segretaria Elena sono il TOP degli studi medici."
+  },
+  {
+   "rating": 5,
+   "date": "2026-05-29",
+   "author": "Natura",
+   "text": "Ottimo studio dentistico, accogliente, il dottor Perin una persona simpatica ma con una grande professionalità ti fa sentire a tuo agio."
+  },
+  {
+   "rating": 5,
+   "date": "2026-02-09",
+   "author": "asia paciotti",
+   "text": "Complimenti per la professionalità a partire da Elena il dottore non si discute, attento gentile, paziente e soprattutto sa fare anestesie senza dolore, poi un complimento a Fanny, bravissima meticolosa a fare igene\nGran bella squadra ah dimenticavo la piccola Greta, bravi"
+  }
+ ],
+ "newest_review": "2026-08-08",
+ "newest_review_days": 79,
+ "alive_pct": 85,
+ "old_url": "http://www.studioperinmichele.it/"
+}
