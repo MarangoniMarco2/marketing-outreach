@@ -2,6 +2,7 @@
 
 Usage:
   python gmail_draft.py --to info@example.com --subject "..." --body body.txt --attach card.jpg scroll.gif [--dry-run out.eml]
+                        [--replace <draft id>]   (rewrite that draft instead of creating a new one)
 The body file is plain text; config/signature.txt is appended when it exists.
 Needs GMAIL_CLIENT_ID, GMAIL_CLIENT_SECRET and GMAIL_REFRESH_TOKEN (scope gmail.compose, see README).
 It only ever creates drafts: nothing is sent.
@@ -54,11 +55,13 @@ if __name__ == '__main__':
     if '--dry-run' in a:
         open(get('--dry-run'), 'wb').write(msg.as_bytes()); print(f'dry run: wrote {get("--dry-run")} ({size:.1f} MB)'); sys.exit()
     raw = base64.urlsafe_b64encode(msg.as_bytes()).decode()
-    req = urllib.request.Request('https://gmail.googleapis.com/gmail/v1/users/me/drafts',
-                                 json.dumps({'message': {'raw': raw}}).encode(),
-                                 {'Authorization': 'Bearer ' + token(), 'Content-Type': 'application/json'})
+    old = get('--replace')  # rewrite an existing draft in place instead of adding a second one
+    url = 'https://gmail.googleapis.com/gmail/v1/users/me/drafts' + (f'/{old}' if old else '')
+    body = {'id': old, 'message': {'raw': raw}} if old else {'message': {'raw': raw}}
+    req = urllib.request.Request(url, json.dumps(body).encode(), {'Authorization': 'Bearer ' + token(), 'Content-Type': 'application/json'},
+                                 method='PUT' if old else 'POST')
     try:
         d = json.load(urllib.request.urlopen(req, timeout=120))
     except urllib.error.HTTPError as e:
         sys.exit(f'Gmail API error {e.code}: {e.read().decode()[:300]}')
-    print(f"draft created: {d['id']} ({size:.1f} MB) https://mail.google.com/mail/#drafts")
+    print(f"draft {'updated' if old else 'created'}: {d['id']} ({size:.1f} MB) https://mail.google.com/mail/#drafts")

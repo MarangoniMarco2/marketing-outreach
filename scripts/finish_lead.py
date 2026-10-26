@@ -5,7 +5,7 @@ Usage:
       Serves site/ on a free local port and makes: the AFTER screenshots with the overflow and console checks
       (shots/), the BEFORE/AFTER card (card.jpg, Italian labels) and the two scroll GIFs. Prints problems and sizes.
       Then look at card.jpg and shots/mobile-index.png before writing the draft.
-  python3 scripts/finish_lead.py <slug> draft --to "<email or empty>" [--date YYYY-MM-DD] [--dry-run]
+  python3 scripts/finish_lead.py <slug> draft --to "<email or empty>" [--date YYYY-MM-DD] [--dry-run] [--replace <draft id>]
       Splits email.txt (first line "OGGETTO: ...") into subject and body, creates the Gmail draft with card.jpg and
       scroll-mobile.gif (plus scroll-desktop.gif when the email stays under about 7.5 MB), records the lead as "drafted" in
       leads/done.jsonl and adds the draft to report.md. Without Gmail secrets it writes email.eml instead.
@@ -54,7 +54,7 @@ def shots(d, lead, accent):
     print(f'look at: {os.path.relpath(d, ROOT)}/card.jpg and shots/mobile-index.png')
 
 
-def draft(d, lead, to, dry=False):
+def draft(d, lead, to, dry=False, replace=None):
     lines = open(os.path.join(d, 'email.txt'), encoding='utf-8').read().strip().splitlines()
     if not lines or not lines[0].upper().startswith('OGGETTO:'): sys.exit('email.txt must start with "OGGETTO: ..."')
     subject = lines[0].split(':', 1)[1].strip()
@@ -67,10 +67,11 @@ def draft(d, lead, to, dry=False):
     args = [f'{S}/gmail_draft.py', '--to', to, '--subject', subject, '--body', body, '--attach', *att]
     gmail = all(os.environ.get(k) for k in ('GMAIL_CLIENT_ID', 'GMAIL_CLIENT_SECRET', 'GMAIL_REFRESH_TOKEN'))
     if not gmail or dry: args += ['--dry-run', os.path.join(d, 'email.eml')]
+    elif replace: args += ['--replace', replace]
     code, out = run(*args)
     print(out)
     if code: sys.exit('draft not created')
-    m = re.search(r'draft created: (\S+)', out)
+    m = re.search(r'draft (?:created|updated): (\S+)', out)
     did = m.group(1) if m else 'dry-run (email.eml)'
     from find_leads import record
     record(lead.get('place_id') or '-', lead['name'], lead['old_url'], 'drafted',
@@ -93,4 +94,4 @@ if __name__ == '__main__':
         shots(d, lead, get('--accent'))
     else:
         if '--to' not in a: sys.exit('draft needs --to "<email>" (or --to "" when no address was found)')
-        draft(d, lead, get('--to'), '--dry-run' in a)
+        draft(d, lead, get('--to'), '--dry-run' in a, get('--replace'))
