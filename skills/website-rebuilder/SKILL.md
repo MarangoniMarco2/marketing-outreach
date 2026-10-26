@@ -15,11 +15,13 @@ Run everything from the repo root. Paths below are relative to it.
 ## Session setup (every run)
 
 ```bash
-python3 -c "import playwright, PIL" || pip install "playwright==1.63.0" pillow   # match the preinstalled browser; never run "playwright install"
-node --version   # taste-skill needs Node 22+
-# taste-skill looks for Chrome in the usual places (or CHROME_PATH); in cloud sessions link Playwright's Chromium once
-[ -e /usr/bin/chromium ] || ln -s "$(ls -d /opt/pw-browsers/chromium-*/chrome-linux64/chrome | head -1)" /usr/bin/chromium
+bash scripts/setup_session.sh
 ```
+It makes sure `python3` has Playwright 1.63.0 and Pillow (installing them if needed; that version matches the
+preinstalled Chromium, never run "playwright install"), checks Node 22+ and ffmpeg, points `/usr/bin/chromium` at
+Playwright's Chromium for taste-skill, and lists which secrets are set (names only). `FAIL` lines must be fixed
+before going on. If it says `WARN ... use /usr/bin/python3.X`, write that path instead of `python3` in every
+command of the run.
 Environment variables set with `export` do not survive between commands, so the commands below never rely on
 them. If HTTPS calls fail on certificates in a cloud session, prefix that one command with
 `SSL_CERT_FILE=/root/.ccr/ca-bundle.crt`.
@@ -38,8 +40,10 @@ python3 scripts/find_leads.py pick --pairs 3
 It takes the next niche/town pairs from `leads/targets.json`, searches Google Maps, keeps businesses that are
 OPERATIONAL, have a real website (not Facebook or a directory) and at least 5 reviews, skips anything already in
 `leads/done.jsonl`, scores each website for how outdated it is (`score_sites.py`) and fetches details (reviews,
-hours) for the worst ones. It prints `site_score`, `alive %` and the newest review date, and saves
-`runs/<date>/candidates.json`.
+hours) for the worst ones. It prints `site_score`, `alive %` and the newest review date, and adds them to
+`runs/<date>/candidates.json` (a second pick the same night adds to the first). It also drops chains and
+franchises (`chains` in `leads/targets.json`, one website for several branches, a branch page on a network
+site) and marks sites behind a captcha or anti-bot wall as `retry` (they come back after 30 days).
 
 A single business given by the user skips this step: use `python3 scripts/places.py search "<name> <town>"` and
 `details <place_id>` to get the same data.
@@ -60,6 +64,10 @@ phone number, a newer second website, a copy of the site on another domain.
 ```bash
 python3 scripts/scrape_site.py https://oldsite.it <inner pages from LINKS> --download runs/<date>/<slug>/raw
 ```
+If it stops with `BLOCKED anti-bot` (exit code 3), the site is behind a captcha: do not try to get around it
+(no other user agents, no browser tricks, no cached copies). `mark` the lead `retry` with the reason and take
+the next candidate.
+
 Collect: name, legal name and VAT, phones, email, address(es), hours (Google Maps hours win over the site's),
 years in business, history, team, services, certifications and networks, guarantees, unique claims, clients they
 name. Invent nothing a customer would rely on. Note the outreach address from `EMAILS:` (never a PEC). No

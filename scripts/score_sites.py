@@ -4,18 +4,33 @@ Usage:
   python score_sites.py https://site1.com https://site2.com ...
   python score_sites.py -f urls.txt        (one URL per line)
 """
-import re, ssl, sys, urllib.request, concurrent.futures as cf
+import re, ssl, sys, urllib.error, urllib.request, concurrent.futures as cf
 
 ctx = ssl.create_default_context(); ctx.check_hostname = False; ctx.verify_mode = ssl.CERT_NONE
 BUILDERS = r'lnwshop|readyplanet|wix|weebly|tarad|jimdo'
+# anti-bot walls (SiteGround, Cloudflare, DataDome): the content is not reachable, never try to bypass them
+ANTIBOT = r'sgcaptcha|cf-chl|challenge-platform|cf_chl_opt|Just a moment\.\.\.|Attention Required!|captcha-delivery'
+# a reCAPTCHA/hCaptcha is often just on the contact form: it is a wall only when the page has almost no text
+CAPTCHA = r'g-recaptcha|hcaptcha'
+
+
+def blocked(h):
+    if len(h) >= 60000: return False
+    if re.search(ANTIBOT, h, re.I): return True
+    text = re.sub(r'\s+', ' ', re.sub(r'<script[\s\S]*?</script>|<style[\s\S]*?</style>|<[^>]+>', ' ', h))
+    return bool(re.search(CAPTCHA, h, re.I)) and len(text) < 400
 
 
 def score(url):
     try:
         r = urllib.request.urlopen(urllib.request.Request(url, headers={'User-Agent': 'Mozilla/5.0'}), timeout=20, context=ctx)
         h = r.read(600000).decode('utf-8', 'replace'); final = r.geturl()
+    except urllib.error.HTTPError as e:
+        body = e.read(60000).decode('utf-8', 'replace')
+        return (-1, url, 'BLOCKED anti-bot' if blocked(body) or e.code in (403, 429, 503) else f'ERROR HTTP {e.code}')
     except Exception as e:
         return (-1, url, 'ERROR ' + str(e)[:60])
+    if blocked(h): return (-1, final, 'BLOCKED anti-bot')
     s, f = 0, []
     if 'name="viewport"' not in h and "name='viewport'" not in h: s += 3; f.append('no-viewport')
     t = len(re.findall(r'<table', h, re.I))

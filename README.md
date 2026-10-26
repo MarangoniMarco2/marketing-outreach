@@ -58,8 +58,9 @@ Copia `config/signature.example.txt` in `config/signature.txt` con i tuoi dati: 
 bozza.
 
 ### 5. Settori e comuni
-Modifica `leads/targets.json` quando vuoi. Per riprendere un'attività scartata, togli la sua riga da
-`leads/done.jsonl`.
+Modifica `leads/targets.json` quando vuoi; in `chains` ci sono i marchi di catene e franchising da non
+contattare. Per riprendere un'attività scartata, togli la sua riga da `leads/done.jsonl`. Quelle con stato
+`retry` (sito dietro captcha, per esempio) tornano da sole fra i candidati dopo 30 giorni.
 
 ## Uso a mano
 In una sessione di Claude Code nel repo: "Usa la skill website-rebuilder su https://sito-vecchio.it".
@@ -69,6 +70,7 @@ In una sessione di Claude Code nel repo: "Usa la skill website-rebuilder su http
 |---|---|
 | `skills/website-rebuilder/SKILL.md` | La skill: trova, verifica, raccoglie, disegna, prepara la mail |
 | `NIGHTLY.md` | Cosa fa la sessione notturna, passo per passo |
+| `scripts/setup_session.sh` | Prepara la sessione cloud (Playwright, Node, Chromium, ffmpeg) e controlla le chiavi |
 | `scripts/places.py` | Google Maps: ricerca, recensioni, orari, punteggio "attività viva" |
 | `scripts/find_leads.py` | Sceglie i lead della notte e tiene il registro di quelli già fatti |
 | `scripts/scrape_site.py` | Testi, link, immagini ed email dal sito vecchio |

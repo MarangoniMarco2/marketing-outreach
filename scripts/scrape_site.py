@@ -6,17 +6,31 @@ Usage:
 Example:
   python scrape_site.py https://old-site.example.com/ about/ contact/ --download raw
 """
-import html, os, re, sys, urllib.request, urllib.parse
+import html, os, re, sys, urllib.error, urllib.request, urllib.parse
+from score_sites import blocked
 
 UA = {'User-Agent': 'Mozilla/5.0'}
 
 
+def wall(url):
+    # an anti-bot wall hides the real content: stop here, never try to get around it
+    print(f'BLOCKED anti-bot: {url} is behind a captcha/anti-bot page. Do not bypass it: '
+          'mark the lead with status "retry" and move on.', file=sys.stderr)
+    sys.exit(3)
+
+
 def get(url):
-    b = urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=30).read()
     try:
-        return b.decode('utf-8')
+        b = urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=30).read()
+    except urllib.error.HTTPError as e:
+        if e.code in (403, 429, 503) or blocked(e.read(60000).decode('utf-8', 'replace')): wall(url)
+        raise
+    try:
+        h = b.decode('utf-8')
     except UnicodeDecodeError:  # many old Italian sites are latin-1: keep the accents
-        return b.decode('cp1252', 'replace')
+        h = b.decode('cp1252', 'replace')
+    if blocked(h): wall(url)
+    return h
 
 
 def text_of(h):
