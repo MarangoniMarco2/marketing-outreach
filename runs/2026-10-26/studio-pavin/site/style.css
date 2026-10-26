@@ -156,12 +156,11 @@ h1, h2, h3 { font-weight: 700; letter-spacing: -0.04em; line-height: 0.92; }
 .quote-h { font-size: clamp(1.5rem, 1rem + 1.6vw, 2.25rem); line-height: 1.05; letter-spacing: -0.03em; margin-bottom: 72px; }
 .spread { margin: 0; }
 .spread .sl {
-  display: flex; justify-content: space-between; max-width: none;
-  font-family: var(--font-display); font-weight: 700; font-size: 8.6vw; line-height: 0.9; letter-spacing: -0.04em;
+  max-width: none;
+  font-family: var(--font-display); font-weight: 700; font-size: 8.6vw; line-height: 1.1; letter-spacing: -0.04em;
 }
-.spread .sl-r { justify-content: flex-end; }
-.spread .sl + .sl { margin-top: 0.3em; }
-.attrib { display: flex; justify-content: space-between; max-width: none; margin-top: 56px; font-size: var(--step-body); font-weight: 600; }
+.spread .sl + .sl { margin-top: 0.1em; }
+.attrib { display: flex; flex-wrap: wrap; gap: 0.25rem 2rem; max-width: none; margin-top: 56px; font-size: var(--step-body); font-weight: 600; }
 .more-quotes { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); gap: var(--gutter); margin-top: 120px; }
 .more-quotes blockquote { margin: 0; }
 .more-quotes blockquote:first-child { grid-column: 1 / span 7; }
@@ -274,8 +273,6 @@ a.row:not(.row-hello) { text-decoration: underline; text-decoration-color: trans
   .quote-h { margin-bottom: 48px; }
   .spread .sl { font-size: 12vw; }
   .attrib { flex-direction: column; gap: 4px; font-size: 1rem; }
-  .attrib span:nth-child(2) { align-self: center; }
-  .attrib span:nth-child(3) { align-self: flex-end; }
   .more-quotes { display: block; margin-top: 64px; }
   .more-quotes blockquote + blockquote { margin-top: 40px; }
 

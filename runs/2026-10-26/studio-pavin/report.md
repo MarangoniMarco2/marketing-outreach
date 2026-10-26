@@ -28,6 +28,10 @@
   (nessuna foto loro), contenuto 7. Corretti al secondo giro: accento della "È" tagliato, linea dello scrim
   sulla foto, foto che non comparivano (effetto tendina tolto), citazione con parole attaccate, orari nei
   contatti. Ancora debole: niente foto dello studio vero.
+- Correzioni QA (26/10, dopo l'invio, solo pagina): citazione di Vincenzo V. ora in due frasi a capo normale
+  (niente space-between), attribuzione in riga; oggetto nel mailto del footer; CONFIRM su etichette e spiegazioni.
+  Gate: lint 0 FAIL 0 WARN; inspect 0 FAIL, 5 WARN (in più off-centre 20/54px a 1440: la citazione,
+  allineata a sinistra, non arriva più al margine destro).
 
 ## Cosa è vero, cosa è trovato
 - Testi: l'introduzione è il loro testo del vecchio sito (trascritto dall'immagine), appena accorciato.
@@ -43,7 +47,29 @@
 
 ## CONFIRM
 - Partita IVA da aggiungere nel footer (non trovata sul sito).
-- Etichette "Tutti / Bambini / Adulti" accanto a ogni cura: scelte da me, da confermare.
+- Etichette "Tutti / Bambini / Adulti" accanto a ogni cura: scelte da me, da confermare (segnate con CONFIRM nell'HTML).
+- Spiegazioni di una riga sotto ogni cura: scritte da me, non dallo studio, da confermare (segnate con CONFIRM nell'HTML):
+  - Prevenzione: "Controlli regolari per fermare i problemi prima che facciano male."
+  - Igiene orale: "La pulizia professionale di denti e gengive, con i consigli per casa."
+  - Odontoiatria infantile: "Le cure per i denti da latte e la prima visita, con calma."
+  - Estetica del sorriso: "Forma e colore dei denti, per un sorriso che piace a te."
+  - Cosmesi dentale: "Piccoli ritocchi di colore e di forma sui denti visibili."
+  - Conservativa: "La cura della carie e le otturazioni, per tenere il dente."
+  - Endodonzia: "La cura canalare, quando la polpa del dente è infiammata."
+  - Ortodonzia dell'infanzia: "Ortodonzia specialistica per i bambini che crescono."
+  - Ortodonzia dell'adulto: "Ortodonzia specialistica: non è mai troppo tardi per denti dritti."
+  - Chirurgia ortognatica: "La correzione della posizione delle ossa delle mascelle."
+  - Implantologia convenzionale: "Una radice in titanio al posto del dente che manca."
+  - Implantologia a carico immediato: "L'impianto con i denti fissati in tempi brevi, quando si può."
+  - Chirurgia maxillo facciale: "Gli interventi su bocca, mascelle e viso."
+  - Parodontologia: "La cura delle gengive e dell'osso che tiene fermi i denti."
+  - Sedazione cosciente: "Per chi ha paura: resti sveglio, ma molto più tranquillo."
+  - Protesi riabilitativa: "Ridare denti che funzionano a chi ne ha persi."
+  - Protesi estetica: "Corone e faccette che si confondono con i denti veri."
+  - Gnatologia: "Lo studio di come chiudono i denti e lavorano le mascelle."
+  - Articolazione temporo-mandibolare: "Dolori e rumori della mandibola vicino all'orecchio."
+  - Posturologia: "Il legame tra il morso e la postura del corpo."
+  - Logopedia: "Deglutizione e pronuncia, spesso insieme all'ortodonzia."
 - "21 cure": conteggio delle voci del vecchio sito (le voci sono 21).
 
 ## Bozza

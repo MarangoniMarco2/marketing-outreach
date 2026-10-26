@@ -51,9 +51,9 @@
       </div>
     </div>
     <div class="intro-pics">
-      <figure class="p1 reveal"><img class="drift" src="img/segreteria.jpg" width="720" height="900" alt="La segreteria dello studio, con un sorriso" loading="lazy"><figcaption>La segreteria ti accoglie.</figcaption></figure>
-      <figure class="p2 reveal"><img src="img/bambini.jpg" width="1440" height="900" alt="Un bambino seduto sulla poltrona dello studio con un modello di denti" loading="lazy"><figcaption>Con i bambini usiamo giochi e cartoni animati.</figcaption></figure>
-      <figure class="p3 reveal"><img src="img/sala.jpg" width="900" height="900" alt="Una delle sale dello studio durante una visita" loading="lazy"><figcaption>Un ambiente sereno fa parte della cura.</figcaption></figure>
+      <figure class="p1 reveal"><div class="frame"><img class="drift" src="img/segreteria.jpg" width="720" height="900" alt="La segreteria dello studio, con un sorriso" loading="lazy"></div><figcaption>La segreteria ti accoglie.</figcaption></figure>
+      <figure class="p2 reveal"><div class="frame"><img src="img/bambini.jpg" width="1440" height="900" alt="Un bambino seduto sulla poltrona dello studio con un modello di denti" loading="lazy"></div><figcaption>Con i bambini usiamo giochi e cartoni animati.</figcaption></figure>
+      <figure class="p3 reveal"><div class="frame"><img src="img/sala.jpg" width="900" height="900" alt="Una delle sale dello studio durante una visita" loading="lazy"></div><figcaption>Un ambiente sereno fa parte della cura.</figcaption></figure>
     </div>
   </section>
 
@@ -62,7 +62,6 @@
     <h2 id="h-cure" class="cure-title reveal">Le cure che facciamo</h2>
     <div class="cure-grid">
       <figure class="cure-pic reveal"><img src="img/relax.jpg" width="720" height="900" alt="Un dentista dello studio sorride in sala" loading="lazy"><figcaption>Per ortodonzia, igiene e gengive lavoriamo in équipe con specialisti.</figcaption></figure>
-      <p class="cure-word" aria-hidden="true">Cure</p>
       <table class="cure-table reveal">
         <caption class="sr">Le cure dello studio e chi le segue</caption>
         <tbody>
@@ -96,6 +95,7 @@
       </ul>
       <div class="bio reveal">
         <p><img class="cap" src="img/perin-studio.jpg" width="600" height="600" alt="Il dott. Michele Perin nello studio" loading="lazy"><strong>Michele Perin</strong> è il titolare dello studio. È laureato in Odontoiatria e Protesi Dentaria e segue in prima persona implantologia, conservativa e protesi. Ha oltre vent'anni di esperienza e lavora con dentisti, igienisti e assistenti preparati.</p>
+        <!-- CONFIRM: repeats the written-guarantee claim from the old home page ("Siamo uno dei pochi studi che danno una garanzia scritta..."): check the guarantee is still offered before keeping this sentence -->
         <p class="soft">Siamo uno dei pochi studi che danno una garanzia scritta del lavoro eseguito. E poi c'è la cordialità: vogliamo che tu stia a tuo agio, anche dal dentista.</p>
       </div>
     </div>
@@ -138,6 +138,7 @@
           <tbody>
             <tr data-day="1"><th scope="row">Lunedì</th><td>dalle 8:30 alle 19:00</td></tr>
             <tr data-day="2"><th scope="row">Martedì</th><td>dalle 10:00 alle 19:00</td></tr>
+            <!-- CONFIRM: Wednesday hours: Google Maps says from 8:30 (used here and in main.js), old site says Martedì-Giovedì 10.00-19.00 -->
             <tr data-day="3"><th scope="row">Mercoledì</th><td>dalle 8:30 alle 19:00</td></tr>
             <tr data-day="4"><th scope="row">Giovedì</th><td>dalle 10:00 alle 19:00</td></tr>
             <!-- CONFIRM: Friday closing 15:30 (Google Maps) vs 16:30 (old site) -->
@@ -147,11 +148,11 @@
         </table>
       </div>
       <figure class="contact-pic reveal">
-        <img class="drift" src="img/ponte-degli-alpini.jpg" width="1600" height="1190" alt="Il Ponte degli Alpini sul Brenta a Bassano del Grappa" loading="lazy">
+        <div class="frame"><img class="drift" src="img/ponte-degli-alpini.jpg" width="1600" height="1190" alt="Il Ponte degli Alpini sul Brenta a Bassano del Grappa" loading="lazy"></div>
         <figcaption>Bassano del Grappa. Lo studio è in via Bortolo Sacchi 3. <a href="https://maps.google.com/?cid=8743688744403482009">Apri il percorso su Google Maps</a></figcaption>
       </figure>
     </div>
-    <a class="mail" href="mailto:studioperinmichele@libero.it?subject=Richiesta%20prima%20visita&amp;body=Buongiorno%2C%20vorrei%20fissare%20una%20prima%20visita.%20Il%20mio%20nome%20%C3%A8%3A%20%0AIl%20mio%20numero%20di%20telefono%20%C3%A8%3A%20%0AGiorni%20e%20orari%20comodi%20per%20me%3A%20"><span>studioperinmichele@</span><span>libero.it</span></a>
+    <a class="mail" href="mailto:studioperinmichele@libero.it?subject=Richiesta%20prima%20visita&amp;body=Buongiorno%2C%20vorrei%20fissare%20una%20prima%20visita.%20Il%20mio%20nome%20%C3%A8%3A%20%0AIl%20mio%20numero%20di%20telefono%20%C3%A8%3A%20%0AGiorni%20e%20orari%20comodi%20per%20me%3A%20"><span>studioperinmichele<wbr>@</span><span>libero.it</span></a>
     <div class="contact-foot">
       <p><a href="tel:+390424568407">Tel. 0424 568407</a><br>36061 Bassano del Grappa (VI)</p>
       <p><a href="https://maps.google.com/?cid=8743688744403482009">Indicazioni stradali</a></p>
@@ -167,7 +168,7 @@
   </div>
   <h2 class="foot-call"><a href="tel:+390424568407">0424 568407</a></h2>
   <div class="foot-meta">
-    <p><a href="mailto:studioperinmichele@libero.it">studioperinmichele@libero.it</a></p>
+    <p><a href="mailto:studioperinmichele@libero.it?subject=Richiesta%20informazioni">studioperinmichele@libero.it</a></p>
     <p>Foto del ponte: “Ponte degli Alpini Bassano del Grappa 2007” di Patrick Denker, <a href="https://creativecommons.org/licenses/by/2.0/">CC BY 2.0</a>, via <a href="https://commons.wikimedia.org/w/index.php?curid=7700400">Wikimedia Commons</a>. Recensioni da Google.</p>
     <p>Bassano del Grappa, 2026</p>
   </div>

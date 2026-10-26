@@ -2,7 +2,7 @@
 
 ## Business
 - Google Maps: 4.6 (22 reviews), newest review 2026-08-08, alive 85%, OPERATIONAL. Via Bortolo Sacchi 3, 36061 Bassano del Grappa. Tel. 0424 568407.
-- Old site: http://www.studioperinmichele.it/ (WordPress 4.5.2). Dated layout; on the phone the cookie notice covers most of the first screen and body text is small, grey and justified.
+- Old site: http://www.studioperinmichele.it/ (WordPress 4.5.2). Dated layout; on the phone the cookie notice covers the top part of the first screen and body text is small, grey and justified.
 - Why chosen: busy and well reviewed, strong real content (own claim "specializzato in persone", written guarantee, children, team) and a full set of professional photos.
 - Email for outreach: studioperinmichele@libero.it (from the site; no PEC). VAT 00914980248.
 
@@ -24,6 +24,8 @@
 ## CONFIRM
 - Cerec Omnicam digital impression scanner still in use (only from an old news post).
 - Written guarantee on work still offered (old home page claim).
+- Bio paragraph repeats the guarantee claim ("Siamo uno dei pochi studi che danno una garanzia scritta del lavoro eseguito"): keep only if the guarantee is still offered.
+- Wednesday hours: Google Maps says from 8:30 (page and live open-now use this), old site says Martedì-Giovedì 10.00-19.00.
 - Friday closing: Google Maps 15:30 vs old site 16:30 (page uses 15:30).
 - Photos date from about 2017: the reception and "relax" photos should still show current staff (page names nobody but Dr. Perin).
 

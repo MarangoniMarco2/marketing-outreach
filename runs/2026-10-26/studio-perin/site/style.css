@@ -77,6 +77,7 @@ figcaption { font-size: var(--step-small); color: var(--muted); margin-top: 10px
 .statement { font-size: clamp(1.5rem, 1rem + 1.1vw, 2rem); line-height: 1.25; }
 .intro-pics { grid-column: 7 / 13; position: relative; }
 .intro-pics figure { overflow: hidden; }
+.frame { overflow: hidden; } /* keeps the drift and hover zoom inside the photo, off the caption */
 .intro-pics figure img { width: 100%; }
 .p1 { width: 62%; margin-top: 4svh; }
 .p1 img { aspect-ratio: 4 / 5; object-fit: cover; }
@@ -93,7 +94,6 @@ figcaption { font-size: var(--step-small); color: var(--muted); margin-top: 10px
 .cure-grid { display: grid; grid-template-columns: repeat(12, 1fr); column-gap: 24px; margin-top: 96px; align-items: end; }
 .cure-pic { grid-column: 1 / 6; align-self: end; }
 .cure-pic img { aspect-ratio: 4 / 5; object-fit: cover; width: 100%; }
-.cure-word { grid-column: 7 / 8; align-self: start; font-size: var(--step-small); color: var(--muted); }
 .cure-table { grid-column: 8 / 13; border-collapse: collapse; width: 100%; font-size: var(--step-body); }
 .cure-table th, .cure-table td { padding: 13px 0; text-align: left; vertical-align: top; font-weight: 400; }
 .cure-table th { color: var(--muted); width: 24%; padding-right: 12px; }
@@ -184,7 +184,6 @@ figcaption { font-size: var(--step-small); color: var(--muted); margin-top: 10px
   .slips { padding: 60px 0 0; }
   .slip { width: auto; flex: 1 1 0; min-width: 0; padding: 40px 20px 48px; }
   .cure-pic { grid-column: 1 / 5; }
-  .cure-word { display: none; }
   .cure-table { grid-column: 6 / 13; }
   .cure-table td:last-child { white-space: normal; }
   .facts { grid-column: 1 / 13; grid-template-columns: repeat(3, 1fr); }
@@ -222,7 +221,6 @@ figcaption { font-size: var(--step-small); color: var(--muted); margin-top: 10px
   .cure { margin-top: 120px; }
   .cure-title { font-size: var(--step-head); padding-left: 0; }
   .cure-grid { display: flex; flex-direction: column; margin-top: 48px; }
-  .cure-word { display: none; }
   .cure-table { order: 1; }
   .cure-table tr { display: grid; grid-template-columns: 1fr auto; padding: 12px 0; }
   .cure-table th, .cure-table td { padding: 0; width: auto; }
@@ -252,7 +250,7 @@ figcaption { font-size: var(--step-small); color: var(--muted); margin-top: 10px
   .contact { padding-top: 104px; min-height: 0; }
   .contact-top { display: block; }
   .contact-pic { margin-top: 48px; }
-  .mail { font-size: 10.4vw; }
+  .mail { font-size: 9vw; }
   .contact-foot { flex-direction: column; gap: 12px; }
   .hours { font-size: var(--step-small); }
   .hours th { padding-right: 14px; }
