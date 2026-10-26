@@ -1,125 +1,467 @@
 [
  {
-  "place_id": "ChIJiz3cgSpNf0cRFwUgcayxMek",
-  "name": "OROLOGERIA OREFICERIA OTTICA ROSSATO & FIGLI S.a.s.",
-  "address": "Corso Italia, 4, 36078 Valdagno VI",
-  "website": "http://www.rossatoefigli.it/",
+  "place_id": "ChIJCcy3Yfsdf0cRFKt0dSfofGs",
+  "name": "Leon d'Oro",
+  "address": "Viale Fiume, 20, 35042 Este PD",
+  "website": "https://www.leondoroeste.it/",
   "status": "OPERATIONAL",
-  "rating": 3.7,
-  "reviews": 6,
-  "phone": "0445 401125",
-  "type": "Gioielleria",
-  "maps": "https://maps.google.com/?cid=16803407038886446359&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "rating": 4.4,
+  "reviews": 531,
+  "phone": "0429 602949",
+  "type": "Ristorante italiano",
+  "maps": "https://maps.google.com/?cid=7745320715342359316&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "site_score": 8,
+  "final_url": "https://www.leondoroeste.it/",
+  "flags": "no-viewport tables:6 old-jquery font/marquee noform",
+  "query": "albergo Noventa Vicentina",
   "hours": [
-   "lunedì: Chiuso",
-   "martedì: 09:00–12:00, 16:00–19:00",
-   "mercoledì: 09:00–12:00, 16:00–19:00",
-   "giovedì: 09:00–12:00, 16:00–19:00",
-   "venerdì: 09:00–12:00, 16:00–19:00",
-   "sabato: 09:00–12:00, 16:00–18:30",
+   "lunedì: 12:00–14:00, 19:30–21:30",
+   "martedì: 12:00–14:00, 19:30–21:30",
+   "mercoledì: 12:00–14:00, 19:30–21:30",
+   "giovedì: 12:00–14:00, 19:30–21:30",
+   "venerdì: 12:00–14:00, 19:30–21:30",
+   "sabato: 12:00–14:00, 19:30–21:30",
    "domenica: Chiuso"
   ],
   "review_list": [
    {
-    "rating": 1,
-    "date": "2026-01-30",
-    "author": "VenditaCasaPerarolo",
-    "text": "Ho portato l’orologio in negozio per la riparazione per ben due volte, ma mi è stato restituito entrambe le volte ancora non funzionante, nonostante mi sia stato detto che era tutto a posto"
+    "rating": 4,
+    "date": "2026-09-06",
+    "author": "Miriam Di Pasquale",
+    "text": "Abbiamo alloggiato qui per un matrimonio nei paraggi e ci siamo trovati davvero bene. L'hotel si trova in una posizione eccellente, in pieno centro ma al tempo stesso molto tranquillo.\nI proprietari sono stati davvero gentili e disponibili, lasciandoci fare colazione anche se eravamo arrivati fuori orario. La camera è essenziale ma pulita e con tutto l'indispensabile per riposare bene, oltre a offrire una bella vista.\nEsperienza decisamente positiva. Este è una cittadina davvero carina che merita una visita. Struttura consigliata!"
    },
    {
     "rating": 5,
-    "date": "2018-06-23",
-    "author": "Alessandro Randon",
-    "text": "Edoardo e Andrea sempre gentili e disponibili. Ottima scelta di prodotti, sia di orificeria, orologeria, che prodotti riguardanti l'ottica, con le ultime novità del mercato."
+    "date": "2026-04-18",
+    "author": "Alessandra Dalla Pietà",
+    "text": "Siamo arrivati in bici, il gestore ci ha accolto con ospitalità e si è preso cura delle nostre bici mettendole dentro il suo magazzino (adatto alle bici), così abbiamo mangiato un pasto eccellente con bigoli e sugo all’anatra fatti in casa meraviglioso, senza il pensiero della bici fuori incustodite. Locale semplice, casalingo, cucina ottima e personale gentilissimo. Che dire.. meraviglioso tutto!!!! Consigliatissimo"
+   },
+   {
+    "rating": 4,
+    "date": "2026-03-16",
+    "author": "Giuliano Bernardi",
+    "text": "Situato in posizione centrale. Pulito anche se le camere avrebbero bisogno di un po' di manutenzione. Non ha un ascensore. Avevamo una camera matrimoniale ma c'era solo un asciugamano per tipo. Colazione buona.  Purtroppo non c'è un posteggio auto vicino."
    },
    {
     "rating": 5,
-    "date": "2018-06-13",
-    "author": "Enea Nizzero",
-    "text": "Sono venuto per cambiare il cinturino dell'orologio, servizio veloce e soddisfacente, anche a livello economico"
+    "date": "2026-03-28",
+    "author": "Gaetano Romano",
+    "text": "Uno dei posti più accoglienti del territorio. La cucina non ha rivali, lo consiglierei ad altri 100 amici."
    },
    {
-    "rating": 1,
-    "date": "2026-09-20",
-    "author": "Ot",
-    "text": "Orologio restituito con riparazione , dopo poco ha smesso di funzionare"
-   },
-   {
-    "rating": 5,
-    "date": "2026-10-10",
-    "author": "marco follesa",
-    "text": ""
+    "rating": 4,
+    "date": "2026-04-18",
+    "author": "Luigi F",
+    "text": "Buonissima cucina casalinga che si sviluppa tra carne e pesce, con ottimi primi. Consiglio."
    }
   ],
-  "newest_review": "2026-10-10",
-  "newest_review_days": 16,
-  "alive_pct": 85,
-  "phone_intl": "+39 0445 401125",
-  "site_score": 5,
-  "final_url": "https://www.rossatoefigli.it/",
-  "flags": "no-viewport font/marquee noform",
-  "query": "ottico Valdagno",
+  "newest_review": "2026-09-06",
+  "newest_review_days": 50,
+  "alive_pct": 95,
+  "phone_intl": "+39 0429 602949"
+ },
+ {
+  "place_id": "ChIJweiM1PYYf0cRoX-3CJPUHUc",
+  "name": "Hotel Noventa",
+  "address": "Via Migliadizzi, 12/B, 36025 Noventa Vicentina VI",
+  "website": "http://www.hotelnoventa.com/",
+  "status": "OPERATIONAL",
+  "rating": 4.2,
+  "reviews": 181,
+  "phone": "0444 861401",
+  "type": "Hotel",
+  "maps": "https://maps.google.com/?cid=5124485678989016993&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "hours": [
+   "lunedì: Aperto 24 ore su 24",
+   "martedì: Aperto 24 ore su 24",
+   "mercoledì: Aperto 24 ore su 24",
+   "giovedì: Aperto 24 ore su 24",
+   "venerdì: Aperto 24 ore su 24",
+   "sabato: Aperto 24 ore su 24",
+   "domenica: Aperto 24 ore su 24"
+  ],
+  "review_list": [
+   {
+    "rating": 5,
+    "date": "2026-08-27",
+    "author": "Giulia Veronese",
+    "text": "⭐⭐⭐⭐⭐\n\nEsperienza davvero eccellente! L’hotel è moderno, molto curato e soprattutto pulitissimo. La camera era spaziosa, confortevole e dotata di tutto il necessario. Il personale si è dimostrato gentile, disponibile e attento a ogni esigenza, facendoci sentire subito accolti. Ottima anche la posizione, comoda per raggiungere le principali località della zona, e molto apprezzato il parcheggio privato. Un soggiorno piacevole sotto ogni punto di vista: torneremo sicuramente e lo consigliamo senza esitazioni!"
+   },
+   {
+    "rating": 1,
+    "date": "2026-05-11",
+    "author": "Orietta Trasatti",
+    "text": "Brutta esperienza! \"Hotel a conduzione familiare\"  Personale  presente a richiesta. Bagno senza piatto doccia. Colazione pagata anticipatamente e nonostante fossimo pochi ospiti, ci hanno lasciato senza cornetto. Prodotti per colazione acquistati da discount!!"
+   },
+   {
+    "rating": 5,
+    "date": "2026-05-11",
+    "author": "Rafeil Maometto",
+    "text": "Fin dal primo giorno, tutto mi è sembrato assolutamente meraviglioso... le camere, il servizio, la posizione... Onestamente, questo è il miglior hotel che abbia visto in questa zona... Grazie a tutti!"
+   },
+   {
+    "rating": 5,
+    "date": "2025-12-15",
+    "author": "Neurotronik23",
+    "text": "Dico la mia..ho passato circa 15 giorni nell hotel, camere moderne pulizia molto buona e colazione molto variegata..considerando che si trova in riviera non ho sentito molto il traffico..però..però..ora io che ho passato più di 15 giorni non capisco 2 cose: la prima perché dovevo cambiare stanza di continuo (ma credo che fossero ordini dall alto dall idea che mi son fatto) 2 io sarei rimasto ancora visto che mi trovavo bene e avevo trovato un clima molto sereno..forse al proprietario non piacciono i soldi non lo so. In più volevo sempre dire e fare i miei complimenti a aurora e Melissa che sono ragazze giovani e hanno voglia di lavorare e sono una meglio dell altra..con loro mi sono trovato bene e avevano sempre un sorriso nei miei confronti. Consiglio vivamente al proprietario di dare fiducia a queste ragazze perché senza di loro quel posto non funziona. Brava anche Sabrina ha svolto un lavoro eccezionale..mi.dispiace ma devo dire il bene e il male..se fosse stato per me sarei stato li un altra settimana mi sono sentito quasi mandato via..ma non da loro due. Ripeto loro eseguono e basta. Ad ogni modo consiglio di mettere una cassa a disposizione delle ragazze per dare il resto ai clienti visto che ho dovuto dare io il resto a una coppia una sera. E solo per fare un favore a melissa perché si merita il meglio. Tornerò volentieri a salutarle"
+   },
+   {
+    "rating": 4,
+    "date": "2024-11-14",
+    "author": "Alessia Dini",
+    "text": "Alberghetto carino situato sopra una concessionaria auto con qualche posto auto disponibile per parcheggiare. L'accesso all'albergo si trova sul retro della struttura. Camere pulite e arredamento molto piacevole, l'unico neo erano i camion che passavano sulla strada sottostante che purtroppo si sentivano dalla camera. La colazione un po' limitata sebbene fosse comunque varia, ma è un piccolo albergo e allestire un buffet troppo grande sarebbe uno spreco per cui capisco la scelta. Personale assolutamente impeccabile, nel complesso consiglio la struttura, mi sono trovata bene e ci tornerei."
+   }
+  ],
+  "newest_review": "2026-08-27",
+  "newest_review_days": 60,
+  "alive_pct": 95,
+  "phone_intl": "+39 0444 861401",
+  "site_score": 4,
+  "final_url": "https://hotelnoventa.com/",
+  "flags": "©2016 old-jquery gen:WordPress 7.1.3 noform",
+  "query": "albergo Noventa Vicentina",
   "source": "web"
  },
  {
-  "place_id": "ChIJU79cWVXJeEcRw53j5mMGf4w",
-  "name": "Idro-Comm. S.R.L.",
-  "address": "Via E. Fermi, 15, 36066 Sandrigo VI",
-  "website": "https://idrocomm.net/",
+  "place_id": "ChIJAUxr38NMf0cR82cMG67z-pM",
+  "name": "Ceolato Arredamenti s.a.s. di Ceolato Giulio",
+  "address": "Via Monte Grappa, 47, 36073 Cornedo Vicentino VI",
+  "website": "http://www.ceolatoarredamenti.com/",
   "status": "OPERATIONAL",
-  "rating": 4.4,
-  "reviews": 28,
-  "phone": "0444 658758",
-  "type": "Negozio di materiali da costruzione",
-  "maps": "https://maps.google.com/?cid=10123817513497370051&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
-  "site_score": 5,
-  "final_url": "https://idrocomm.net/",
-  "flags": "©2015 font/marquee noform",
-  "query": "termoidraulica Sandrigo",
+  "rating": 4.1,
+  "reviews": 7,
+  "phone": "0445 403883",
+  "type": "Produttore",
+  "maps": "https://maps.google.com/?cid=10663102996856727539&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "site_score": 6,
+  "final_url": "http://www.ceolatoarredamenti.com/",
+  "flags": "©2018 no-https gen:WordPress 4.9.6 old-cms noform",
+  "query": "falegnameria Valdagno",
   "hours": [
-   "lunedì: 08:00–12:00, 14:00–18:30",
-   "martedì: 08:00–12:00, 14:00–18:30",
-   "mercoledì: 08:00–12:00, 14:00–18:30",
-   "giovedì: 08:00–12:00, 14:00–18:30",
-   "venerdì: 08:00–12:00, 14:00–18:30",
-   "sabato: 08:00–12:00",
+   "lunedì: 08:00–12:00, 14:00–18:00",
+   "martedì: 08:00–12:00, 14:00–18:00",
+   "mercoledì: 08:00–12:00, 14:00–18:00",
+   "giovedì: 08:00–12:00, 14:00–18:00",
+   "venerdì: 08:00–12:00, 14:00–18:00",
+   "sabato: Chiuso",
    "domenica: Chiuso"
   ],
   "review_list": [
    {
+    "rating": 5,
+    "date": "2020-04-29",
+    "author": "sotirios papadopoulos",
+    "text": "Come professionista ho avuto un'ottima esperienza con Ceolato Arredamenti.Professionali, competenti, innovativi. Sempre a disposizione per accontentare al meglio le esigenze del cliente. Puntuali e portavoce dell' Eccellenza Made in ITALY! Bravi continuate così"
+   },
+   {
+    "rating": 5,
+    "date": "2021-09-24",
+    "author": "stefano zerbato",
+    "text": ""
+   },
+   {
+    "rating": 4,
+    "date": "2020-08-13",
+    "author": "Silvia Pellizzari",
+    "text": ""
+   },
+   {
+    "rating": 4,
+    "date": "2019-07-13",
+    "author": "Matteo Vigolo",
+    "text": ""
+   },
+   {
     "rating": 1,
-    "date": "2025-05-13",
-    "author": "Fabiola Caretta",
-    "text": "Comperato un bel po di roba\nMolto bravi nella vendita!\nPoi se hai qualche problema fidatevi\nSpariscono non rispondono degli errori e danni che fanno!!\nMAI PIÙ!!\nDi sicuro lo sconsiglierò a vita"
-   },
-   {
-    "rating": 5,
-    "date": "2022-11-03",
-    "author": "Leonida Tardivo",
-    "text": "Il miglior showroom del Vicentino, con ottimi prezzi e personale molto professionale. Consigliatissimo!"
-   },
-   {
-    "rating": 5,
-    "date": "2019-07-30",
-    "author": "Fadani",
-    "text": "Sala mostra completa, con un'ampia offerta di arredamenti / mobili per il bagno, sanitari e rubinetteria delle migliori marche."
-   },
-   {
-    "rating": 5,
-    "date": "2023-07-30",
-    "author": "Alessandra De Antoni",
-    "text": "Elena ha saputo consigliarci al meglio e Ilario ha svolto un ottimo lavoro"
-   },
-   {
-    "rating": 5,
-    "date": "2022-05-30",
-    "author": "Sergio Bruschi",
-    "text": "Molto professionale ed economico"
+    "date": "2019-06-13",
+    "author": "Antonio Ceranto",
+    "text": ""
    }
   ],
-  "newest_review": "2025-05-13",
-  "newest_review_days": 531,
+  "newest_review": "2021-09-24",
+  "newest_review_days": 1858,
   "alive_pct": 45,
-  "phone_intl": "+39 0444 658758"
+  "phone_intl": "+39 0445 403883"
+ },
+ {
+  "place_id": "ChIJD-BuLkjReEcRpnAf72zY2yU",
+  "name": "Impresa Guarise Giovanni",
+  "address": "Via Colosseo, 21, 36027 Rosà VI",
+  "website": "http://www.impresaguarise.it/",
+  "status": "OPERATIONAL",
+  "rating": 4.8,
+  "reviews": 6,
+  "phone": "0424 560182",
+  "type": "Appaltatore diretto",
+  "maps": "https://maps.google.com/?cid=2728011961682849958&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "site_score": 5,
+  "final_url": "http://www.impresaguarise.it/",
+  "flags": "no-viewport no-https noform",
+  "query": "impresa edile Rosà",
+  "hours": [],
+  "review_list": [
+   {
+    "rating": 5,
+    "date": "2019-02-22",
+    "author": "Mauro Milani",
+    "text": "Personale d'ufficio cortese, gentile ed efficiente soprattutto la Sig.ra Antonella. I titolari sono persone serie corrette e preparate. Se proprio si deve cercare un difetto beh due fratelli uno Interista e l'altro iuventino non fa una bella impressione"
+   },
+   {
+    "rating": 5,
+    "date": "2021-06-13",
+    "author": "Manuel Pizzato",
+    "text": ""
+   },
+   {
+    "rating": 5,
+    "date": "2021-01-09",
+    "author": "Marco Bonifacio (Tm22)",
+    "text": ""
+   },
+   {
+    "rating": 5,
+    "date": "2020-09-12",
+    "author": "Stefania Parolin",
+    "text": ""
+   },
+   {
+    "rating": 4,
+    "date": "2020-02-26",
+    "author": "Armando Cecchin",
+    "text": ""
+   }
+  ],
+  "newest_review": "2021-06-13",
+  "newest_review_days": 1961,
+  "alive_pct": 45,
+  "phone_intl": "+39 0424 560182"
+ },
+ {
+  "place_id": "ChIJhTEAMf4df0cRfk1c7rKV2aY",
+  "name": "B&B Poeta",
+  "address": "Via Alessandro Prosdocimi, 14, 35042 Este PD",
+  "website": "http://www.bbpoeta.it/",
+  "status": "OPERATIONAL",
+  "rating": 3.9,
+  "reviews": 16,
+  "phone": "0429 56156",
+  "type": "Bed & Breakfast",
+  "maps": "https://maps.google.com/?cid=12022805275977993598&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "site_score": 5,
+  "final_url": "http://www.bbpoeta.it/",
+  "flags": "no-viewport no-https noform",
+  "query": "albergo Noventa Vicentina",
+  "hours": [],
+  "review_list": [
+   {
+    "rating": 4,
+    "date": "2017-07-30",
+    "author": "Renato Girardello",
+    "text": "La signora Luisa una donna molto simpatica e cordiale. La stanza molto accogliete, pulita in un ambiente romantico. La colazione veramente abbondante, un soggiorno da ripetere in ufuturo prossimo. Rapporto qualità/prezzo veramente ottimo."
+   },
+   {
+    "rating": 4,
+    "date": "2018-06-04",
+    "author": "Stefania Poeta",
+    "text": "Era di mio fratello, purtroppo lui nn c'e' piu'. Ora lo gestisce mia cognata. Con una passeggiata di 10 minuti si arriva al centro di Este. In generale... buono."
+   },
+   {
+    "rating": 5,
+    "date": "2019-05-13",
+    "author": "Massimo Dal Soglio",
+    "text": "Sentirsi come a casa. Cordialitá e professionalità della Sig.a Luisa."
+   },
+   {
+    "rating": 4,
+    "date": "2019-09-14",
+    "author": "Lolita Galante",
+    "text": "Cordialità, precisione e pulizia."
+   },
+   {
+    "rating": 2,
+    "date": "2025-09-18",
+    "author": "Johnny Cash",
+    "text": ""
+   }
+  ],
+  "newest_review": "2025-09-18",
+  "newest_review_days": 403,
+  "alive_pct": 45,
+  "phone_intl": "+39 0429 56156"
+ },
+ {
+  "place_id": "ChIJO0LsW1AYf0cR0lhUftLI1fU",
+  "name": "OLTRE LA DANZA PALESTRA NOVENTA",
+  "address": "Primo Piano Migross Superstore, Via Giorgione, 2, 36025 Noventa Vicentina VI",
+  "website": "http://oltreladanza.org/",
+  "status": "OPERATIONAL",
+  "rating": 4.5,
+  "reviews": 13,
+  "phone": "338 239 1024",
+  "type": "Scuola di sport",
+  "maps": "https://maps.google.com/?cid=17714285515719858386&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "site_score": 4,
+  "final_url": "http://www.oltreladanza.org/",
+  "flags": "no-https font/marquee gen:Sitonline - http://www.si noform",
+  "query": "palestra Noventa Vicentina",
+  "hours": [
+   "lunedì: 16:00–20:00",
+   "martedì: 16:00–20:00",
+   "mercoledì: 16:00–20:00",
+   "giovedì: 16:00–20:00",
+   "venerdì: 16:00–20:00",
+   "sabato: Chiuso",
+   "domenica: Chiuso"
+  ],
+  "review_list": [
+   {
+    "rating": 5,
+    "date": "2019-10-11",
+    "author": "Maria Luigia Cirasiello",
+    "text": "Ottima scuola molto professionale"
+   },
+   {
+    "rating": 5,
+    "date": "2025-08-31",
+    "author": "Greta Moroni",
+    "text": ""
+   },
+   {
+    "rating": 5,
+    "date": "2022-10-05",
+    "author": "Patrizia Brogin",
+    "text": ""
+   },
+   {
+    "rating": 4,
+    "date": "2022-10-05",
+    "author": "Angy",
+    "text": ""
+   },
+   {
+    "rating": 3,
+    "date": "2022-09-10",
+    "author": "Stefania Boscarato",
+    "text": ""
+   }
+  ],
+  "newest_review": "2025-08-31",
+  "newest_review_days": 421,
+  "alive_pct": 45,
+  "phone_intl": "+39 338 239 1024"
+ },
+ {
+  "place_id": "ChIJ5WzmEaNNf0cRDaKSanEBhdo",
+  "name": "FALEGNAMERIA DISCONZI",
+  "address": "Via Disconzi, 31, 36070 Disconzi-Stempellati VI",
+  "website": "http://www.falegnameriadisconzi.it/",
+  "status": "OPERATIONAL",
+  "rating": 4.4,
+  "reviews": 5,
+  "phone": "348 292 1481",
+  "type": null,
+  "maps": "https://maps.google.com/?cid=15745993258801734157&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "site_score": 4,
+  "final_url": "http://www.falegnameriadisconzi.it/",
+  "flags": "no-https gen:WordPress 3.8 old-cms noform",
+  "query": "falegnameria Valdagno",
+  "hours": [],
+  "review_list": [
+   {
+    "rating": 4,
+    "date": "2024-03-07",
+    "author": "Nicola Longo",
+    "text": "Gentile ed affidabili. Serramenti in legno l'azienda ideale che lavora in proprio"
+   },
+   {
+    "rating": 3,
+    "date": "2022-10-23",
+    "author": "Daniele Vomiero",
+    "text": ""
+   },
+   {
+    "rating": 5,
+    "date": "2021-04-29",
+    "author": "Mirco Faccin",
+    "text": ""
+   },
+   {
+    "rating": 5,
+    "date": "2018-05-26",
+    "author": "Andrea Montagna",
+    "text": ""
+   },
+   {
+    "rating": 5,
+    "date": "2018-05-12",
+    "author": "Mirella Corato",
+    "text": ""
+   }
+  ],
+  "newest_review": "2024-03-07",
+  "newest_review_days": 963,
+  "alive_pct": 45,
+  "phone_intl": "+39 348 292 1481"
+ },
+ {
+  "place_id": "ChIJjdABpMJMf0cRDHQie2GMv1k",
+  "name": "Castagna Cucine",
+  "address": "Via Gasdotto, 7, 36078 Valdagno VI",
+  "website": "http://www.castagnacucine.it/",
+  "status": "OPERATIONAL",
+  "rating": 4.6,
+  "reviews": 18,
+  "phone": "0445 402733",
+  "type": "Negozio di mobili",
+  "maps": "https://maps.google.com/?cid=6467041940232893452&g_mp=Cidnb29nbGUubWFwcy5wbGFjZXMudjEuUGxhY2VzLlNlYXJjaFRleHQQAhgEIAA",
+  "site_score": 3,
+  "final_url": "https://castagnacucine.it/",
+  "flags": "©2015 gen:Site Kit by Google 1.189. noform",
+  "query": "falegnameria Valdagno",
+  "hours": [
+   "lunedì: 08:00–12:00, 14:00–18:00",
+   "martedì: 08:00–12:00, 14:00–18:00",
+   "mercoledì: 08:00–12:00, 14:00–18:00",
+   "giovedì: 08:00–12:00, 14:00–18:00",
+   "venerdì: 08:00–12:00, 14:00–18:00",
+   "sabato: Chiuso",
+   "domenica: Chiuso"
+  ],
+  "review_list": [
+   {
+    "rating": 5,
+    "date": "2025-09-26",
+    "author": "andrea Cazzola",
+    "text": "Ho da poco ristrutturato casa e finalmente sono riuscito a realizzare la cucina che desideravo da tempo. Sono stato seguito passo passo nella fase di progettazione da Jenny, che ha trovato una soluzione a tutte le nostre esigenze. Ho scelto il modello Natura, è una cucina in Rovere e sinceramente la trovo molto bella e accogliente. I montatori sono stati veloci e molto educati, grazie mille!"
+   },
+   {
+    "rating": 5,
+    "date": "2023-08-05",
+    "author": "Mauro Corponi",
+    "text": "Storico Marchio Cucine in Stile o Moderne Non Economiche ma molto ben strutturate e funzionali"
+   },
+   {
+    "rating": 5,
+    "date": "2025-09-05",
+    "author": "Davide Sandri",
+    "text": "Soddisfatti per la nostra scelta, seguiti in fase di progettazione con esperienza e professionalità, confermata anche in fase di montaggio e successivamente di assistenza."
+   },
+   {
+    "rating": 5,
+    "date": "2018-11-24",
+    "author": "fabio roccoberton",
+    "text": "Nei vari anni ho acquistato 3 cucine in questo negozio e produttore. Vari modelli, stili e prezzi. Personale cordiale e preparato che sa consigliare. Ampio parcheggio. Servizio consegna e montaggio ok."
+   },
+   {
+    "rating": 5,
+    "date": "2021-11-07",
+    "author": "Simone Lana",
+    "text": "Un cuciniere storico dell'alto vicentino , sempre ad alti livelli, oggi dedicato al lusso estero."
+   }
+  ],
+  "newest_review": "2025-09-26",
+  "newest_review_days": 395,
+  "alive_pct": 45,
+  "phone_intl": "+39 0445 402733"
  }
 ]
