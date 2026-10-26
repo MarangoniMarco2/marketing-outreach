@@ -26,7 +26,17 @@ Environment variables set with `export` do not survive between commands, so the 
 them. If HTTPS calls fail on certificates in a cloud session, prefix that one command with
 `SSL_CERT_FILE=/root/.ccr/ca-bundle.crt`.
 Secrets come from the environment: `GOOGLE_MAPS_API_KEY` (step 1) and `GMAIL_CLIENT_ID`, `GMAIL_CLIENT_SECRET`,
-`GMAIL_REFRESH_TOKEN` (step 7). If one is missing, say so plainly and do the parts that do not need it.
+`GMAIL_REFRESH_TOKEN` (step 6). If one is missing, say so plainly and do the parts that do not need it.
+
+## Lean context (every run)
+Every turn re-reads everything already in the conversation, so what you read stays on the bill until the end:
+- Read only what the step needs: this file, `vendor/taste-skill/SKILL.md` and the references it sends you to
+  when you design. Never `cat` the scripts, the README or old summaries: the commands below are all you need,
+  and each script prints its usage when run without arguments.
+- Look at the few images the steps name (contact sheet, BEFORE on the phone, card, AFTER on the phone, the
+  inspect screenshots), not every file.
+- Keep command output short (`| tail`, `| head`, `grep`); the scripts already print summaries.
+- One command per step where there is one (`prepare_lead.py`, `finish_lead.py`), not their parts by hand.
 
 Output for one business goes in `runs/<YYYY-MM-DD>/<slug>/`:
 `site/` (index.html + assets), `before/` and `shots/` (screenshots), `card.jpg`, `scroll-desktop.gif`,
@@ -64,9 +74,10 @@ Fallback (web search not available, or still nothing after 12 pairs): `python3 s
 A single business given by the user skips this step: use `python3 scripts/places.py search "<name> <town>"` and
 `details <place_id>` to get the same data.
 
-Then **look**: screenshot the top candidates (desktop and phone) and pick with your eyes. The score finds
-candidates, your eyes choose. Drop a candidate (and `mark` it as `skipped` with the reason) when the site is
-actually fine, the business looks closed, or something feels off.
+Then **look**: `python3 scripts/find_leads.py show` lists the candidates with their reviews in a few lines each,
+and `python3 scripts/peek.py runs/<date>/peek.jpg <url> <url> ...` puts the old home pages of the best ones
+(desktop and phone) in one image. The score finds candidates, your eyes choose. Drop a candidate (and `mark` it
+as `skipped` with the reason) when the site is actually fine, the business looks closed, or something feels off.
 
 ### Is the business alive?
 `alive_pct` from `places.py`: reviews in the last 6 months = 85%+ (good lead); only older activity = 55-70% (only
@@ -75,27 +86,28 @@ as rude or dishonest, the business as closed or moved, or show an unhappy patter
 well and the reviews would end up on their new page. Red flags as before: several unrelated businesses on one
 phone number, a newer second website, a copy of the site on another domain.
 
-## Step 2: Harvest real content
+## Step 2: Harvest real content (one command)
 
 ```bash
-python3 scripts/scrape_site.py https://oldsite.it <inner pages from LINKS> --download runs/<date>/<slug>/raw
+python3 scripts/prepare_lead.py <place_id> <old_url> <slug>
 ```
-If it stops with `BLOCKED anti-bot` (exit code 3), the site is behind a captcha: do not try to get around it
-(no other user agents, no browser tricks, no cached copies). `mark` the lead `retry` with the reason and take
-the next candidate.
+It writes `runs/<date>/<slug>/`: `lead.json` (Google Maps: rating, up to five reviews verbatim with author and
+date, hours, phones, alive %), `old-site.txt` (text of the home page and up to six menu pages, then links, emails,
+phones, VAT), `raw/` with the old site's pictures and `raw/contact-sheet.jpg` showing them all, and the BEFORE
+screenshots in `before/` (the old site can change). It prints a four-line summary.
+Exit code 3 = the site is behind a captcha: do not try to get around it (no other user agents, no browser tricks,
+no cached copies). `mark` the lead `retry` with the reason and take the next candidate.
 
-Collect: name, legal name and VAT, phones, email, address(es), hours (Google Maps hours win over the site's),
-years in business, history, team, services, certifications and networks, guarantees, unique claims, clients they
-name. Invent nothing a customer would rely on. Note the outreach address from `EMAILS:` (never a PEC). No
-address found = the draft is created without a recipient and the report says so.
+Read `lead.json` and `old-site.txt`, look at `raw/contact-sheet.jpg` and `before/home-mobile.jpg`: that is the
+whole inventory. Collect: name, legal name and VAT, phones, email, address(es), hours (Google Maps hours win over
+the site's), years in business, history, team, services, certifications and networks, guarantees, unique claims,
+clients they name. Invent nothing a customer would rely on. The outreach address comes from `EMAILS:` (never a
+PEC). No address found = the draft is created without a recipient and the report says so.
 
-From `places.py details`: the up-to-five Google reviews with author and date, rating and count, hours.
-
-Photos: make a contact sheet of `raw/` and look at it. Use their real photos of work, place and people (crop out
-baked-in logos and labels). Do NOT use promo posters, banners with text, other brands' material, or stock photos
-from the old site (a supercar on a body shop's site is stock: say so in the email if it is a weakness).
-
-Record the BEFORE now: screenshot the old home page on desktop and phone into `before/` (the old site can change).
+Photos: use their real photos of work, place and people (crop out baked-in logos and labels). Do NOT use promo
+posters, banners with text, other brands' material, or stock photos from the old site (a supercar on a body
+shop's site is stock: say so in the email if it is a weakness). Open a single file from `raw/` only when you
+need to judge it closely.
 
 ## Step 3: Design and build the home page with tasteskill v2
 
@@ -104,18 +116,19 @@ Where this file and the taste-skill house rules disagree on design, **the taste-
 eyebrows, no 01/02/03 numbering, no icon-topped card rows, no gradients, no shadows at rest, no glass or blur, no
 pill badges, no tiny tracked capitals, two typefaces at most, square or fully round buttons).
 
-Commands: first `cd runs/<date>/<slug>` (the working directory persists), so `.taste-skill/` lands there, then
-call the scripts with exactly this path. `.claude/settings.json` allows these five scripts in exactly this form
-(and from the repo root as `node vendor/taste-skill/scripts/...`); do not wrap them in variables, `env` or `&&`
-chains, or the night run will stop at a permission prompt nobody answers.
+Commands: the taste-skill scripts must run inside the lead's folder (`.taste-skill/` lands there). Other leads
+may be built at the same time in the same session, so never rely on the current directory: start each command
+with `cd` to the lead's absolute folder, and call the scripts with exactly this relative path (the form
+`.claude/settings.json` allows; no variables or `env` around them).
 ```bash
-node ../../../vendor/taste-skill/scripts/draw.mjs --sector <closest sector> --brief "<one line>" --sections <roles> --have photography --options 3
-node ../../../vendor/taste-skill/scripts/draw.mjs <same args> --direction <id>
-node ../../../vendor/taste-skill/scripts/assets.mjs "<query from the inventory>"   # open-collection pictures, credited
-node ../../../vendor/taste-skill/scripts/lint.mjs site/
-node ../../../vendor/taste-skill/scripts/inspect.mjs site/index.html
+cd /home/user/marketing-outreach/runs/<date>/<slug> && node ../../../vendor/taste-skill/scripts/draw.mjs --sector <closest sector> --brief "<one line>" --sections <roles> --have photography --options 3
+cd /home/user/marketing-outreach/runs/<date>/<slug> && node ../../../vendor/taste-skill/scripts/draw.mjs <same args> --direction <id>
+cd /home/user/marketing-outreach/runs/<date>/<slug> && node ../../../vendor/taste-skill/scripts/assets.mjs "<query from the inventory>"
+cd /home/user/marketing-outreach/runs/<date>/<slug> && node ../../../vendor/taste-skill/scripts/lint.mjs site/
+cd /home/user/marketing-outreach/runs/<date>/<slug> && node ../../../vendor/taste-skill/scripts/inspect.mjs site/index.html
 ```
-`cd` back to the repo root before running the Python scripts.
+Python scripts: `cd /home/user/marketing-outreach && python3 scripts/...`. If the repo is somewhere else, use
+that path instead.
 
 Adaptations for this job:
 - **One page only:** `site/index.html` with its CSS, JS and `img/`. No inner pages. Every section the visitor
@@ -141,49 +154,39 @@ Adaptations for this job:
 - **Unconfirmed facts** (old client lists, team size, partner companies that may have merged): keep them out of
   the page, or mark with `<!-- CONFIRM: ... -->` and list them in the report.
 - `<meta name="robots" content="noindex, nofollow">` on the page.
+- **Screenshots and GIFs** are made with full-page captures and a fast scroll: a reveal effect that hides a big
+  picture until it scrolls into view (a "shutter" or clip that opens late) can leave it blank in them. Keep
+  pictures visible by default and animate only small things.
 - **Time budget (nightly):** two look-and-fix rounds at most (taste step 8), then the motion layer, then gate
   again. The gate must end with 0 FAIL at 1440, 768 and 390.
 
-## Step 4: Screens for the email
+## Step 4: Screens, pitch card and GIFs (one command)
 
 ```bash
-python3 -m http.server 4812 --directory runs/<date>/<slug>/site &
-python3 scripts/shoot.py http://localhost:4812 index runs/<date>/<slug>/shots
+python3 scripts/finish_lead.py <slug> shots --accent "#hex"
 ```
-Look at every screenshot. Accessory screens are fine when they help the pitch (for example the services section
-or the contact block cropped at phone width); save them in `shots/` with clear names.
+It serves `site/` on a free local port, takes the AFTER screenshots with the overflow and console checks
+(`shots/`), the BEFORE/AFTER card (`card.jpg`, Italian labels) and the two scroll GIFs, and prints problems and
+sizes. Fix anything it flags and run it again. Then look at `card.jpg` and `shots/mobile-index.png` (two images,
+not every file). Each GIF should be under about 4 MB. The old site may show a popup or cookie banner in the BEFORE:
+leave it, it is part of the pitch, unless it covers everything. Accessory screens are fine when they help the
+pitch; save them in `shots/` with clear names.
 
-## Step 5: Pitch card and GIFs
-
-```bash
-python3 scripts/pitch_card.py <old-url> http://localhost:4812/ "<Business name>" runs/<date>/<slug>/card.jpg --lang it --accent "#hex"
-python3 scripts/make_gif.py http://localhost:4812/ runs/<date>/<slug>/scroll-desktop.gif
-python3 scripts/make_gif.py http://localhost:4812/ runs/<date>/<slug>/scroll-mobile.gif --mobile
-```
-Open the card and look at it. Each GIF should be under about 4 MB (lower `--width` or `--screens` if not).
-The old site may show a popup or cookie banner in the BEFORE: leave it, it is part of the pitch, unless it
-covers everything.
-
-## Step 6: The email text
+## Step 5: The email text
 
 Write `email.txt` from `templates/email_it.txt` (first line `OGGETTO: ...`). Name one or two concrete, verified
 problems of the old site (visible in `before/`) and two or three real strengths you put on the new page. No price,
 no claims about a phone call that did not happen, about 180 words, the opt-out line at the end.
 
-## Step 7: Gmail draft (never send)
+## Step 6: Gmail draft (never send) and record (one command)
 
 ```bash
-python3 scripts/gmail_draft.py --to "<email or empty>" --subject "<subject>" --body runs/<date>/<slug>/email-body.txt \
-  --attach runs/<date>/<slug>/card.jpg runs/<date>/<slug>/scroll-mobile.gif
+python3 scripts/finish_lead.py <slug> draft --to "<email or empty>"
 ```
-`email-body.txt` is `email.txt` without the OGGETTO line. Attach the card and one GIF (the phone one usually
-shows the difference best); add the desktop GIF only if the total stays under about 8 MB. The script only creates
-drafts. Without Gmail secrets, run it with `--dry-run runs/<date>/<slug>/email.eml` and say so.
-
-Then record the business:
-```bash
-python3 scripts/find_leads.py mark <place_id> --name "<name>" --website <url> --status drafted --note "<one line>"
-```
+It splits `email.txt` into subject and body, creates the Gmail draft with `card.jpg` and `scroll-mobile.gif` (plus
+the desktop GIF when the email stays under about 7.5 MB), records the lead as `drafted` in `leads/done.jsonl` and
+adds the draft id and attachments to `report.md`. It only creates drafts. Without Gmail secrets it writes
+`email.eml` instead and says so.
 
 ## Report (report.md, and a short summary to the user)
 - Business, Google data (rating, count, newest review, alive %), why it was chosen.

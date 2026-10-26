@@ -26,9 +26,15 @@ fi
 major=$(node -p 'process.versions.node.split(".")[0]' 2>/dev/null || echo 0)
 if [ "$major" -ge 22 ]; then echo "OK   node $(node --version)"; else echo "FAIL node 22+ needed by taste-skill (found: $(node --version 2>&1))"; fail=1; fi
 
-# taste-skill looks for Chrome in the usual places: point /usr/bin/chromium at Playwright's Chromium
+# taste-skill looks for Chrome in the usual places: /usr/bin/chromium runs Playwright's Chromium.
+# Cloud sessions run as root, and Chrome refuses to start as root without --no-sandbox: the wrapper adds it.
 chrome=$(ls -d /opt/pw-browsers/chromium-*/chrome-linux64/chrome 2>/dev/null | head -1)
-[ -e /usr/bin/chromium ] || { [ -n "$chrome" ] && ln -s "$chrome" /usr/bin/chromium; }
+if [ -n "$chrome" ] && { [ ! -e /usr/bin/chromium ] || [ -L /usr/bin/chromium ] || grep -qs lead-rebuilder /usr/bin/chromium; }; then
+  rm -f /usr/bin/chromium
+  printf '#!/bin/sh\n# lead-rebuilder: Playwright Chromium for taste-skill\nexec "%s" %s "$@"\n' "$chrome" \
+    "$([ "$(id -u)" = 0 ] && echo --no-sandbox)" > /usr/bin/chromium
+  chmod +x /usr/bin/chromium
+fi
 if [ -e /usr/bin/chromium ]; then echo "OK   chromium for taste-skill"; else echo "FAIL no Chromium found for taste-skill"; fail=1; fi
 
 if command -v ffmpeg >/dev/null; then echo "OK   ffmpeg"; else echo "FAIL ffmpeg missing (make_gif.py needs it)"; fail=1; fi

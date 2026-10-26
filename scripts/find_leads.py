@@ -10,6 +10,9 @@ Usage:
       leads/done.jsonl, scores each site, finds the business on Google Maps by its website, keeps it if it is
       OPERATIONAL with enough reviews and not a chain, fetches reviews and hours (alive %) and adds it to the
       night's candidates file. Captcha-walled sites and sites missing from Maps are marked "retry".
+  python find_leads.py show [--out runs/<date>/candidates.json]
+      Tonight's candidates in a few lines each: site score and flags, alive %, rating, and the Google reviews
+      (stars, month, first 160 characters) to spot red flags. Read this instead of candidates.json.
   python find_leads.py pick [--pairs 3] [--out runs/2026-10-27/candidates.json]
       Fallback when web search is not available: searches Google Maps directly for the next pairs,
       drops businesses already in leads/done.jsonl and chains/franchises, scores their websites and checks they
@@ -180,6 +183,17 @@ def check(query, urls, out_path, min_reviews=5, min_score=3):  # lower bar than 
     print(f'{query}: {added} new candidates, {len(found)} in {out_path}')
 
 
+def show(out_path):
+    found = json.load(open(out_path, encoding='utf-8')) if os.path.exists(out_path) else []
+    for i, p in enumerate(found, 1):
+        print(f"{i}. {p['name']} | {p['address']}\n   place_id {p['place_id']}  {p['final_url']}\n"
+              f"   site {p['site_score']} ({p['flags']}) | alive {p['alive_pct']}% | {p.get('rating')} ({p['reviews']} rec.), "
+              f"newest {p.get('newest_review')} | {p.get('phone_intl') or ''}")
+        for r in p.get('review_list') or []:
+            print(f"   {r.get('rating')}* {(r.get('date') or '')[:7]} {(r.get('text') or '').replace(chr(10), ' ')[:160]}")
+    print(f'{len(found)} candidates in {out_path}')
+
+
 def save(found, out_path):
     found.sort(key=lambda p: (-(p['alive_pct'] >= 55), -p['site_score'], -p['alive_pct']))
     os.makedirs(os.path.dirname(out_path), exist_ok=True)
@@ -247,7 +261,9 @@ if __name__ == '__main__':
     a = sys.argv[1:]
     sys.stdout.reconfigure(encoding='utf-8')
     out = a[a.index('--out') + 1] if '--out' in a else os.path.join(ROOT, 'runs', date.today().isoformat(), 'candidates.json')
-    if a[:1] == ['next']:
+    if a[:1] == ['show']:
+        show(out)
+    elif a[:1] == ['next']:
         show_next(int(a[a.index('--pairs') + 1]) if '--pairs' in a else 4)
     elif a[:1] == ['check'] and '--query' in a:
         opts = {i + 1 for i, x in enumerate(a) if x in ('--query', '--out')} | {i for i, x in enumerate(a) if x in ('--query', '--out')}

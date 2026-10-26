@@ -2,7 +2,7 @@
 check, console errors, and a screen recording of the homepage scroll.
 
 Usage:
-  python shoot.py http://localhost:4812 index,services,portfolio,contact out_dir
+  python shoot.py http://localhost:4812 index,services,portfolio,contact out_dir [--no-video]
 Needs: pip install playwright && playwright install chromium
 (or set CHROME_PATH to an existing chrome.exe / chromium binary)
 """
@@ -33,6 +33,8 @@ async def main(base, pages, out):
                 print(f'{name:8} {page:12} overflowX={ox}' + ('   <-- FIX' if ox > 0 else ''))
             print(f'{name} console errors: {errs or "none"}')
             await ctx.close()
+        if NO_VIDEO:
+            await b.close(); return
         ctx = await b.new_context(viewport={'width': 1440, 'height': 900}, record_video_dir=os.path.join(out, '_vid'))
         pg = await ctx.new_page(); await pg.goto(base + '/', wait_until='networkidle'); await pg.wait_for_timeout(3000)
         for _ in range(40):
@@ -43,5 +45,7 @@ async def main(base, pages, out):
 
 
 if __name__ == '__main__':
-    if len(sys.argv) < 4: sys.exit(__doc__)
-    asyncio.run(main(sys.argv[1].rstrip('/'), sys.argv[2].split(','), sys.argv[3]))
+    NO_VIDEO = '--no-video' in sys.argv
+    args = [x for x in sys.argv[1:] if x != '--no-video']
+    if len(args) < 3: sys.exit(__doc__)
+    asyncio.run(main(args[0].rstrip('/'), args[1].split(','), args[2]))

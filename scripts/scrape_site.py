@@ -7,7 +7,7 @@ Example:
   python scrape_site.py https://old-site.example.com/ about/ contact/ --download raw
 """
 import html, os, re, sys, urllib.error, urllib.request, urllib.parse
-from score_sites import blocked
+from score_sites import blocked, blocked_http
 
 UA = {'User-Agent': 'Mozilla/5.0'}
 
@@ -23,7 +23,7 @@ def get(url):
     try:
         b = urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=30).read()
     except urllib.error.HTTPError as e:
-        if e.code in (403, 429, 503) or blocked(e.read(60000).decode('utf-8', 'replace')): wall(url)
+        if blocked_http(e.code, e.read(60000).decode('utf-8', 'replace')): wall(url)
         raise
     try:
         h = b.decode('utf-8')

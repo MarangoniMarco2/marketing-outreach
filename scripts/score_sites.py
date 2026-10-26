@@ -14,6 +14,11 @@ ANTIBOT = r'sgcaptcha|cf-chl|challenge-platform|cf_chl_opt|Just a moment\.\.\.|A
 CAPTCHA = r'g-recaptcha|hcaptcha'
 
 
+def blocked_http(code, body):
+    """An HTTP error page that is a bot wall. 503 "upstream connect error" from the proxy is a site that is down, not a wall."""
+    return blocked(body) or (code in (403, 429) and len(body) < 5000)
+
+
 def blocked(h):
     if len(h) >= 60000: return False
     if re.search(ANTIBOT, h, re.I): return True
@@ -27,7 +32,7 @@ def score(url):
         h = r.read(600000).decode('utf-8', 'replace'); final = r.geturl()
     except urllib.error.HTTPError as e:
         body = e.read(60000).decode('utf-8', 'replace')
-        return (-1, url, 'BLOCKED anti-bot' if blocked(body) or e.code in (403, 429, 503) else f'ERROR HTTP {e.code}')
+        return (-1, url, 'BLOCKED anti-bot' if blocked_http(e.code, body) else f'ERROR HTTP {e.code}')
     except Exception as e:
         return (-1, url, 'ERROR ' + str(e)[:60])
     if blocked(h): return (-1, final, 'BLOCKED anti-bot')
