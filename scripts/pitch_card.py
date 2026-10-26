@@ -6,7 +6,7 @@ Example:
   python pitch_card.py https://old-site.example.com/ http://localhost:4812/ "Example Dental Clinic" card.jpg --lang en --accent "#1AAE9F"
 Set CHROME_PATH to use an existing Chromium. Needs: playwright, pillow.
 """
-import asyncio, os, sys
+import asyncio, os, shutil, sys, tempfile
 from playwright.async_api import async_playwright
 from PIL import Image, ImageDraw, ImageFont, ImageFilter
 
@@ -22,7 +22,7 @@ async def grab(url, prefix):
         kw = {'executable_path': os.environ['CHROME_PATH']} if os.environ.get('CHROME_PATH') else {}
         b = await p.chromium.launch(**kw)
         for name, vp, mob in [('d', {'width': 1440, 'height': 900}, False), ('m', {'width': 390, 'height': 844}, True)]:
-            ctx = await b.new_context(viewport=vp, is_mobile=mob, device_scale_factor=2 if mob else 1)
+            ctx = await b.new_context(viewport=vp, is_mobile=mob, device_scale_factor=2 if mob else 1, ignore_https_errors=True)
             pg = await ctx.new_page()
             await pg.goto(url, wait_until='load', timeout=60000); await pg.wait_for_timeout(3500)
             await pg.screenshot(path=f'{prefix}-{name}.png')
@@ -54,7 +54,7 @@ def shadow(canvas, box, radius):
     canvas.alpha_composite(sh.filter(ImageFilter.GaussianBlur(18)))
 
 
-def build(name, lang, accent, out):
+def build(name, lang, accent, out, tmp):
     lb = LABELS[lang]
     W, colw, gap, ytop = 1800, 790, 80, 190
     x0s = (70, 70 + colw + gap)
@@ -64,7 +64,7 @@ def build(name, lang, accent, out):
     d.text((70, 44), name, font=font(54), fill='white')
     d.text((72, 120), lb[2], font=font(26, False), fill=(150, 158, 172))
     bottom = 0
-    for i, (tag, pre) in enumerate([(lb[0], '_old'), (lb[1], '_new')]):
+    for i, (tag, pre) in enumerate([(lb[0], os.path.join(tmp, 'old')), (lb[1], os.path.join(tmp, 'new'))]):
         x = x0s[i]
         pill_col = (70, 76, 90) if i == 0 else accent
         tw = d.textlength(tag, font=font(28))
@@ -88,7 +88,10 @@ if __name__ == '__main__':
     old, new, name, out = a[:4]
     lang = a[a.index('--lang') + 1] if '--lang' in a else 'en'
     accent = a[a.index('--accent') + 1] if '--accent' in a else '#C9A84C'
-    asyncio.run(grab(old, '_old')); asyncio.run(grab(new, '_new'))
-    build(name, lang, accent, out)
-    for f in ['_old-d.png', '_old-m.png', '_new-d.png', '_new-m.png']: os.remove(f)
+    tmp = tempfile.mkdtemp(prefix='pitch-card-')  # its own folder: builds run in parallel from the same directory
+    try:
+        asyncio.run(grab(old, os.path.join(tmp, 'old'))); asyncio.run(grab(new, os.path.join(tmp, 'new')))
+        build(name, lang, accent, out, tmp)
+    finally:
+        shutil.rmtree(tmp, ignore_errors=True)
     print('saved', out)

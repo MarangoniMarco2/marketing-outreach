@@ -4,6 +4,8 @@ __pycache__/
 # heavy or throwaway files stay out of the repo (the drafts in Gmail have the attachments)
 runs/**/raw/
 runs/**/.taste-skill/
+# taste-skill assets.mjs --get downloads clips up to 25 MB here
+runs/**/assets/
 runs/**/*.gif
 runs/**/*.webm
 runs/**/*.eml

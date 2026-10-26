@@ -8,8 +8,9 @@ import re, ssl, sys, urllib.error, urllib.request, concurrent.futures as cf
 
 ctx = ssl.create_default_context(); ctx.check_hostname = False; ctx.verify_mode = ssl.CERT_NONE
 BUILDERS = r'lnwshop|readyplanet|wix|weebly|tarad|jimdo'
-# anti-bot walls (SiteGround, Cloudflare, DataDome): the content is not reachable, never try to bypass them
-ANTIBOT = r'sgcaptcha|cf-chl|challenge-platform|cf_chl_opt|Just a moment\.\.\.|Attention Required!|captcha-delivery'
+# anti-bot walls (SiteGround, Cloudflare, DataDome): the content is not reachable, never try to bypass them.
+# Not "challenge-platform": Cloudflare adds /cdn-cgi/challenge-platform/scripts/jsd/main.js to normal pages too
+ANTIBOT = r'sgcaptcha|cf_chl_opt|cf-chl-|<title>\s*Just a moment|Attention Required! \| Cloudflare|captcha-delivery'
 # a reCAPTCHA/hCaptcha is often just on the contact form: it is a wall only when the page has almost no text
 CAPTCHA = r'g-recaptcha|hcaptcha'
 
@@ -39,10 +40,12 @@ def score(url):
         return (-1, url, 'ERROR ' + str(e)[:60])
     if blocked(h): return (-1, final, 'BLOCKED anti-bot')
     s, f = 0, []
-    if 'name="viewport"' not in h and "name='viewport'" not in h: s += 3; f.append('no-viewport')
+    if not re.search(r'name=["\']?viewport', h, re.I): s += 3; f.append('no-viewport')
     t = len(re.findall(r'<table', h, re.I))
     if t > 3: s += 2; f.append(f'tables:{t}')
-    yrs = [int(y) for y in re.findall(r'(?:©|&copy;|copyright)\D{0,15}((?:19|20)\d\d)', h, re.I)]
+    # the last year of a range: "© 2005-2025" is a site updated in 2025
+    yrs = [max(map(int, re.findall(r'(?:19|20)\d\d', y))) for y in re.findall(
+        r'(?:©|&copy;|copyright)\D{0,15}((?:19|20)\d\d(?:\s*(?:-|–|—|&[nm]dash;|&#821[12];)\s*(?:19|20)\d\d)?)', h, re.I)]
     if yrs and max(yrs) < 2022: s += 2; f.append(f'©{max(yrs)}')
     jq = re.search(r'jquery[-.]?(\d)\.(\d+)', h, re.I)
     if jq and int(jq.group(1)) < 2: s += 1; f.append('old-jquery')

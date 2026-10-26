@@ -59,10 +59,9 @@ def detail(place_id):
                      'text': (r.get('originalText') or r.get('text') or {}).get('text', '')})
     out['review_list'] = revs
     dates = [r['date'] for r in revs if r['date']]
-    out['newest_review'] = max(dates) if dates else None
-    if out['newest_review']:
-        age = (datetime.now(timezone.utc) - datetime.fromisoformat(out['newest_review']).replace(tzinfo=timezone.utc)).days
-        out['newest_review_days'] = age
+    out['newest_review'] = max(dates) if dates else None  # both None without reviews: the keys are always there
+    out['newest_review_days'] = (datetime.now(timezone.utc) - datetime.fromisoformat(out['newest_review'])
+                                 .replace(tzinfo=timezone.utc)).days if out['newest_review'] else None
     out['alive_pct'] = alive_score(out)
     return out
 

@@ -8,36 +8,43 @@ Writes runs/<date>/<slug>/:
   old-site.txt      text of the home page and up to 6 inner pages from its menu, then links and emails
   raw/              the old site's pictures over 15 KB; raw/contact-sheet.jpg shows them all in one image
   before/           home-desktop.jpg and home-mobile.jpg (first screen), the BEFORE of the pitch
-Prints a short summary, not the page text. Exit 3: the site is behind a captcha or anti-bot wall
-(mark the lead "retry" and never try to get around it).
+Prints a short summary, not the page text. Exit 3: the home page is behind a captcha or anti-bot wall
+(mark the lead "retry" and never try to get around it); an inner page behind one is just skipped.
+<date> defaults to tonight's date in Italy (find_leads.run_date).
 """
-import json, os, re, sys, urllib.parse, urllib.request
-from datetime import date
+import html, json, os, re, sys, urllib.parse, urllib.request
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import places
-from scrape_site import UA, get, text_of
+from find_leads import run_date, site_key, slug
+from scrape_site import UA, Wall, ctx, emails_in, fetch, text_of, wall
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # menu pages worth reading, best first
 KEYS = [r'chi-?siamo|azienda|storia|about|lo-?studio|la-?nostra', r'serviz|lavoraz|prestaz|trattament|cure|prodott|attivit|cosa-?facciamo',
         r'team|staff|persone|medici|dottor', r'contatt|dove|orari|sede', r'lavori|realizzaz|gallery|galleria|foto|portfolio',
         r'certific|garanzi|qualit|marchi|partner']
-SKIP = re.compile(r'\.(pdf|jpe?g|png|gif|webp|svg|zip|docx?|xlsx?|mp4)$|privacy|cookie|login|cart|carrello|wp-admin|feed|#', re.I)
+# whole words of the path or query: /cartongesso and /carta-da-parati are not a cart
+SKIP = re.compile(r'\.(pdf|jpe?g|png|gif|webp|svg|zip|docx?|xlsx?|mp4)$|(?<![a-z0-9])(privacy|cookies?|login|cart|carrello|'
+                  r'wp-admin|feed)(?![a-z0-9])', re.I)
 
 
 def inner_pages(home_url, h, n=10):
-    host = urllib.parse.urlparse(home_url).netloc.removeprefix('www.')
+    """The site's own pages linked from the home page, the menu pages worth reading first. The query stays and the
+    link text counts: old Joomla menus are index.php?option=...&id=..., with the words only in the text."""
+    full = lambda href: urllib.parse.urldefrag(urllib.parse.urljoin(home_url, html.unescape(href).strip()))[0]
+    words = {}
+    for href, t in re.findall(r'<a\s[^>]*?href=["\']([^"\']+)["\'][^>]*>([\s\S]{0,400}?)</a>', h, re.I):
+        words[full(href)] = words.get(full(href), '') + ' ' + slug(text_of(t))
     links = []
-    for href in re.findall(r'href=["\']([^"\'#?]+)', h, re.I):
-        u = urllib.parse.urljoin(home_url, href)
-        p = urllib.parse.urlparse(u)
-        if p.scheme in ('http', 'https') and p.netloc.removeprefix('www.') == host and not SKIP.search(u) \
-                and p.path.strip('/') and u.rstrip('/') != home_url.rstrip('/') and u not in links:
+    for href in re.findall(r'href=["\']([^"\']+)', h, re.I):
+        u = full(href); p = urllib.parse.urlparse(u)
+        if p.scheme in ('http', 'https') and site_key(u) == site_key(home_url) and not (SKIP.search(p.path) or SKIP.search(p.query)) \
+                and (p.path.strip('/') or p.query) and u.rstrip('/') != home_url.rstrip('/') and u not in links:
             links.append(u)
     ranked = []
     for k in KEYS:
-        ranked += [u for u in links if re.search(k, urllib.parse.unquote(u), re.I) and u not in ranked]
+        ranked += [u for u in links if re.search(k, urllib.parse.unquote(u) + words.get(u, ''), re.I) and u not in ranked]
     return ranked[:n], links
 
 
@@ -89,31 +96,31 @@ def before_shots(url, out):
         b.close()
 
 
-def main(place_id, url, slug, day):
-    d = os.path.join(ROOT, 'runs', day, slug)
+def main(place_id, url, lead_slug, day):
+    d = os.path.join(ROOT, 'runs', day, lead_slug)
     raw = os.path.join(d, 'raw'); os.makedirs(raw, exist_ok=True)
-    home = get(url)  # exits 3 on an anti-bot wall
+    try:
+        home, final = fetch(url)  # links and pictures are relative to the address after redirects
+    except Wall:
+        wall(url)  # exits 3: only the home page decides that the site is walled
     lead = places.detail(place_id)
     lead['old_url'] = url
     json.dump(lead, open(os.path.join(d, 'lead.json'), 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 
-    pages, links = inner_pages(url, home)
-    texts, pics, emails = [(url, home)], pictures(url, home), set()
+    pages, links = inner_pages(final, home)
+    texts, pics, emails = [(final, home)], pictures(final, home), set()
     seen = {text_of(home).strip()}
     for u in pages:
         if len(texts) > 6: break
         try:
-            h = get(u)
+            h, fu = fetch(u)  # a wall here (a reCAPTCHA on the contact page) only skips that page
             t = text_of(h).strip()
             if t in seen: continue  # same page under another address ("-off", "?lang=")
-            seen.add(t); texts.append((u, h)); pics += pictures(u, h)
-        except SystemExit:
-            raise
+            seen.add(t); texts.append((fu, h)); pics += pictures(fu, h)
         except Exception as e:
             print(f'  skipped {u}: {str(e)[:60]}')
     for _, h in texts:
-        emails |= {e.lower() for e in re.findall(r'[\w.+-]+@[\w-]+\.[\w.-]+\w', h)
-                   if not re.search(r'\.(png|jpe?g|gif|webp|svg)$', e, re.I)}
+        emails |= emails_in(h)
     alltext = ' '.join(text_of(h) for _, h in texts)
     vat = sorted(set(re.findall(r'(?:P\.?\s?IVA|partita iva|C\.?F\.?)\D{0,12}(\d{11})', alltext, re.I)))
     phones = {}
@@ -134,7 +141,7 @@ def main(place_id, url, slug, day):
     for i, u in enumerate(dict.fromkeys(pics)):
         if len(kept) >= 40: break
         try:
-            data = urllib.request.urlopen(urllib.request.Request(u, headers=UA), timeout=20).read()
+            data = urllib.request.urlopen(urllib.request.Request(u, headers=UA), timeout=20, context=ctx).read()
         except Exception:
             continue
         if len(data) > 15000:
@@ -154,4 +161,4 @@ if __name__ == '__main__':
     a = sys.argv[1:]
     if len(a) < 3: sys.exit(__doc__)
     sys.stdout.reconfigure(encoding='utf-8')
-    main(a[0], a[1], a[2], a[a.index('--date') + 1] if '--date' in a else date.today().isoformat())
+    main(a[0], a[1], a[2], a[a.index('--date') + 1] if '--date' in a else run_date())

@@ -40,9 +40,12 @@ Every turn re-reads everything already in the conversation, so what you read sta
 - Write a file whole when you create it (one Write for `index.html`, one for the CSS), and batch fixes into one
   edit per file per round instead of many small edits.
 
-Output for one business goes in `runs/<YYYY-MM-DD>/<slug>/`:
+Output for one business goes in `runs/<date>/<slug>/`:
 `site/` (index.html + assets), `before/` and `shots/` (screenshots), `card.jpg`, `scroll-desktop.gif`,
 `scroll-mobile.gif`, `email.txt`, `report.md`.
+`<date>` (YYYY-MM-DD) is the run's date, today in Italy (`TZ=Europe/Rome date +%F`); in a nightly run the
+coordinator gives it. Pass it as `--date` to `prepare_lead.py` and `finish_lead.py`, so a build that goes past
+midnight stays in one folder.
 
 ## Step 1: Find prospects (web search first, Google Maps to check)
 
@@ -91,14 +94,15 @@ phone number, a newer second website, a copy of the site on another domain.
 ## Step 2: Harvest real content (one command)
 
 ```bash
-python3 scripts/prepare_lead.py <place_id> <old_url> <slug>
+python3 scripts/prepare_lead.py <place_id> <old_url> <slug> --date <date>
 ```
 It writes `runs/<date>/<slug>/`: `lead.json` (Google Maps: rating, up to five reviews verbatim with author and
 date, hours, phones, alive %), `old-site.txt` (text of the home page and up to six menu pages, then links, emails,
 phones, VAT), `raw/` with the old site's pictures and `raw/contact-sheet.jpg` showing them all, and the BEFORE
 screenshots in `before/` (the old site can change). It prints a four-line summary.
-Exit code 3 = the site is behind a captcha: do not try to get around it (no other user agents, no browser tricks,
-no cached copies). `mark` the lead `retry` with the reason and take the next candidate.
+Exit code 3 = the home page is behind a captcha: do not try to get around it (no other user agents, no browser
+tricks, no cached copies). `mark` the lead `retry` with the reason and take the next candidate. An inner page
+behind a captcha (often the contact form) is just skipped.
 
 Read `lead.json` and `old-site.txt`, look at `raw/contact-sheet.jpg` and `before/home-mobile.jpg`: that is the
 whole inventory. Collect: name, legal name and VAT, phones, email, address(es), hours (Google Maps hours win over
@@ -165,14 +169,15 @@ Adaptations for this job:
 ## Step 4: Screens, pitch card and GIFs (one command)
 
 ```bash
-python3 scripts/finish_lead.py <slug> shots --accent "#hex"
+python3 scripts/finish_lead.py <slug> shots --accent "#hex" --date <date>
 ```
 It serves `site/` on a free local port, takes the AFTER screenshots with the overflow and console checks
 (`shots/`), the BEFORE/AFTER card (`card.jpg`, Italian labels) and the two scroll GIFs, and prints problems and
-sizes. Fix anything it flags and run it again. Then look at `card.jpg` and `shots/mobile-index.png` (two images,
-not every file). Each GIF should be under about 4 MB. The old site may show a popup or cookie banner in the BEFORE:
-leave it, it is part of the pitch, unless it covers everything. Accessory screens are fine when they help the
-pitch; save them in `shots/` with clear names.
+sizes. A step that failed is printed with its error and the command ends with a non-zero exit code. Fix anything
+it flags and run it again. Then look at `card.jpg` and `shots/mobile-index.png` (two images, not every file).
+Each GIF should be under about 4 MB. The old site may show a popup or cookie banner in the BEFORE: leave it, it
+is part of the pitch, unless it covers everything. Accessory screens are fine when they help the pitch; save
+them in `shots/` with clear names.
 
 ## Step 5: The email text
 
@@ -183,12 +188,14 @@ no claims about a phone call that did not happen, about 180 words, the opt-out l
 ## Step 6: Gmail draft (never send) and record (one command)
 
 ```bash
-python3 scripts/finish_lead.py <slug> draft --to "<email or empty>"
+python3 scripts/finish_lead.py <slug> draft --to "<email or empty>" --date <date>
 ```
 It splits `email.txt` into subject and body, creates the Gmail draft with `card.jpg` and `scroll-mobile.gif` (plus
 the desktop GIF when the email stays under about 7.5 MB), records the lead as `drafted` in `leads/done.jsonl` and
-adds the draft id and attachments to `report.md`. It only creates drafts. Without Gmail secrets it writes
-`email.eml` instead and says so.
+adds the draft id and attachments to `report.md`. It only creates drafts. It refuses to run without `card.jpg` and
+`scroll-mobile.gif` (run `shots` first), and refuses a second draft when `report.md` already has one: add
+`--replace <draft id>` to rewrite that draft. Without Gmail secrets (or with `--dry-run`) it writes `email.eml`
+instead, records nothing and says so.
 
 ## Report (report.md, and a short summary to the user)
 - Business, Google data (rating, count, newest review, alive %), why it was chosen.

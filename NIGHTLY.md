@@ -14,9 +14,12 @@ If the scheduled prompt still speaks of a separate search agent, this file wins:
 1. `cd` to the repo (normally `/home/user/marketing-outreach`; it must be among the session's sources, a fresh
    clone cannot push), then `git checkout -q main && git pull -q origin main && bash scripts/setup_session.sh`.
    Do not read other files yourself: the agents read what they need.
+   - The night's `<date>` is today in Italy: `TZ=Europe/Rome date +%F` (what the scripts use by default). The
+     night starts on the previous day in UTC, so use this one everywhere below and give it to every build agent.
    - A `FAIL` line or no `GOOGLE_MAPS_API_KEY`: write `runs/<date>/summary.md` with the reason, commit, push, stop.
    - A `WARN ... use /usr/bin/python3.X` line: tell every agent to use that path instead of `python3`.
-   - No Gmail secrets: the drafts become `.eml` files by themselves (`finish_lead.py`); say so in the summary.
+   - No Gmail secrets: the drafts become `.eml` files by themselves (`finish_lead.py`) and the leads are not
+     recorded as drafted; say so in the summary.
 2. **Search yourself**: read only the sections "Lean context" and "Step 1" of `skills/website-rebuilder/SKILL.md`
    and do Step 1: `find_leads.py next --pairs 4`, two or three web searches per pair, one `check` per pair with
    the businesses' own websites; repeat `next` until at least two candidates have alive_pct >= 55 and
@@ -25,8 +28,9 @@ If the scheduled prompt still speaks of a separate search agent, this file wins:
    site, real content to work with, no red flags in the reviews. `mark` every candidate you looked at and
    rejected (skipped, excluded or retry, with the reason). Never try to get around a captcha.
 3. No leads: go to 5. Otherwise start **one build agent per lead, all in the same message** (Agent tool,
-   general-purpose) so they run in parallel (at most 3), each with the prompt below and that lead's line
-   `{"place_id": "...", "name": "...", "town": "...", "url": "...", "slug": "short-kebab-name"}`. Wait for all.
+   general-purpose) so they run in parallel (at most 3), each with the prompt below, the night's date and that
+   lead's line `{"place_id": "...", "name": "...", "town": "...", "url": "...", "slug": "short-kebab-name"}`.
+   Wait for all.
 4. If a build agent failed or stopped early, do not redo its work yourself: list it in the summary.
 5. Write `runs/<date>/summary.md` in Italian (template below), then
    `git add leads runs && git commit -qm "Notte <date>: <n> bozze" && git push -q origin main`.
@@ -36,11 +40,12 @@ If the scheduled prompt still speaks of a separate search agent, this file wins:
    the same lines in Italian.
 
 ### Build agent prompt
-> Build one lead for tonight's Lead Rebuilder run. Repo: /home/user/marketing-outreach. Lead: <the JSON line>.
-> Read skills/website-rebuilder/SKILL.md (skip Step 1) and do steps 2 to 6 for this lead, then write report.md.
-> Other leads are being built at the same time in this session: start every command with `cd` to an absolute
-> path, work only in runs/<date>/<slug>/, and do not commit or push. If the site turns out blocked or unusable,
-> `mark` the lead (retry or skipped, with the reason) and stop. Answer with at most 8 lines:
+> Build one lead for tonight's Lead Rebuilder run. Repo: /home/user/marketing-outreach. Date: <date>.
+> Lead: <the JSON line>. Read skills/website-rebuilder/SKILL.md (skip Step 1) and do steps 2 to 6 for this lead,
+> then write report.md. Pass `--date <date>` to every prepare_lead.py and finish_lead.py command (the night
+> crosses midnight in UTC). Other leads are being built at the same time in this session: start every command
+> with `cd` to an absolute path, work only in runs/<date>/<slug>/, and do not commit or push. If the site turns
+> out blocked or unusable, `mark` the lead (retry or skipped, with the reason) and stop. Answer with at most 8 lines:
 > name | town | Google rating (count), newest review | recipient or "email non trovata" | attachments and size |
 > CONFIRM items | problems, or "BLOCCATO: <reason>".
 
