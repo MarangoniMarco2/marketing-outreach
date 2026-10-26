@@ -37,6 +37,8 @@ Every turn re-reads everything already in the conversation, so what you read sta
   inspect screenshots), not every file.
 - Keep command output short (`| tail`, `| head`, `grep`); the scripts already print summaries.
 - One command per step where there is one (`prepare_lead.py`, `finish_lead.py`), not their parts by hand.
+- Write a file whole when you create it (one Write for `index.html`, one for the CSS), and batch fixes into one
+  edit per file per round instead of many small edits.
 
 Output for one business goes in `runs/<YYYY-MM-DD>/<slug>/`:
 `site/` (index.html + assets), `before/` and `shots/` (screenshots), `card.jpg`, `scroll-desktop.gif`,
@@ -124,9 +126,9 @@ with `cd` to the lead's absolute folder, and call the scripts with exactly this 
 cd /home/user/marketing-outreach/runs/<date>/<slug> && node ../../../vendor/taste-skill/scripts/draw.mjs --sector <closest sector> --brief "<one line>" --sections <roles> --have photography --options 3
 cd /home/user/marketing-outreach/runs/<date>/<slug> && node ../../../vendor/taste-skill/scripts/draw.mjs <same args> --direction <id>
 cd /home/user/marketing-outreach/runs/<date>/<slug> && node ../../../vendor/taste-skill/scripts/assets.mjs "<query from the inventory>"
-cd /home/user/marketing-outreach/runs/<date>/<slug> && node ../../../vendor/taste-skill/scripts/lint.mjs site/
-cd /home/user/marketing-outreach/runs/<date>/<slug> && node ../../../vendor/taste-skill/scripts/inspect.mjs site/index.html
+cd /home/user/marketing-outreach/runs/<date>/<slug> && node ../../../vendor/taste-skill/scripts/lint.mjs site/ && node ../../../vendor/taste-skill/scripts/inspect.mjs site/index.html
 ```
+The last line is one gate round: lint and inspect together, in one command.
 Python scripts: `cd /home/user/marketing-outreach && python3 scripts/...`. If the repo is somewhere else, use
 that path instead.
 

@@ -143,7 +143,7 @@ def check(query, urls, out_path, min_reviews=5, min_score=3):  # lower bar than 
     ids, doms = load_done()
     t = targets()
     town = max((x for x in t['towns'] if x.lower() in query.lower()), key=len, default='')
-    found = json.load(open(out_path, encoding='utf-8')) if os.path.exists(out_path) else []
+    found = load_found(out_path)
     ids |= {p['place_id'] for p in found}; doms |= {domain(p['website']) for p in found}
     todo, seen = [], set()
     for u in urls:
@@ -183,8 +183,15 @@ def check(query, urls, out_path, min_reviews=5, min_score=3):  # lower bar than 
     print(f'{query}: {added} new candidates, {len(found)} in {out_path}')
 
 
-def show(out_path):
+def load_found(out_path):
+    """Tonight's candidates, minus anything recorded in done.jsonl since (drafted, skipped, excluded, retry)."""
     found = json.load(open(out_path, encoding='utf-8')) if os.path.exists(out_path) else []
+    ids, doms = load_done()
+    return [p for p in found if p['place_id'] not in ids and domain(p['website']) not in doms]
+
+
+def show(out_path):
+    found = load_found(out_path)
     for i, p in enumerate(found, 1):
         print(f"{i}. {p['name']} | {p['address']}\n   place_id {p['place_id']}  {p['final_url']}\n"
               f"   site {p['site_score']} ({p['flags']}) | alive {p['alive_pct']}% | {p.get('rating')} ({p['reviews']} rec.), "
@@ -205,7 +212,7 @@ def pick(n_pairs, out_path, min_reviews=5, min_score=4, details_per_pair=4):
     ids, doms = load_done()
     t = targets()
     # earlier picks of the same night stay: add to them instead of overwriting
-    found = json.load(open(out_path, encoding='utf-8')) if os.path.exists(out_path) else []
+    found = load_found(out_path)
     ids |= {p['place_id'] for p in found}
     for niche, town in pairs(n_pairs):
         q = f'{niche} {town}'
